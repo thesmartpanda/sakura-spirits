@@ -800,7 +800,16 @@ function toggleCartToast() {
   alert(cart.map(i => `${i.name} × ${i.qty} — ${i.price}`).join('\n') + `\n\nTotal items: ${cart.reduce((s,i)=>s+i.qty,0)}`);
 }
 
-filterAndSort();
+// Apply filter from URL param (e.g. shop.html?filter=yamazaki)
+const urlFilter = new URLSearchParams(window.location.search).get('filter');
+if (urlFilter) {
+  const matchingChip = [...document.querySelectorAll('.filter-chip')]
+    .find(c => c.textContent.trim().toLowerCase() === urlFilter.toLowerCase());
+  if (matchingChip) setFilter(urlFilter, matchingChip);
+  else filterAndSort();
+} else {
+  filterAndSort();
+}
 updateCartCount();
 
 const observer = new IntersectionObserver(entries => {

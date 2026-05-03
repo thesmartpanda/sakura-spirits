@@ -353,7 +353,9 @@
       padding: 2.5rem 2rem;
       text-align: center;
       transition: background 0.3s;
-      cursor: default;
+      cursor: pointer;
+      text-decoration: none;
+      display: block;
     }
 
     .region-card:hover {
@@ -674,26 +676,26 @@
     <h2 class="section-title">Explore by <em>Region</em></h2>
   </div>
   <div class="regions-grid reveal" style="transition-delay:0.15s">
-    <div class="region-card">
+    <a href="shop.html?filter=yamazaki" class="region-card">
       <div class="region-kanji">山崎</div>
       <div class="region-name">Yamazaki</div>
       <p class="region-desc">The birthplace of Japanese whisky — fruity, floral, complex</p>
-    </div>
-    <div class="region-card">
+    </a>
+    <a href="shop.html?filter=hakushu" class="region-card">
       <div class="region-kanji">白州</div>
       <div class="region-name">Hakushu</div>
       <p class="region-desc">Mountain forest distillery — fresh, herbal, delicately smoky</p>
-    </div>
-    <div class="region-card">
+    </a>
+    <a href="shop.html?filter=yoichi" class="region-card">
       <div class="region-kanji">余市</div>
       <div class="region-name">Yoichi</div>
       <p class="region-desc">Hokkaido's rugged coast — peaty, bold, reminiscent of Scotch</p>
-    </div>
-    <div class="region-card">
+    </a>
+    <a href="shop.html?filter=nikka" class="region-card">
       <div class="region-kanji">竹鶴</div>
       <div class="region-name">Miyagikyo</div>
       <p class="region-desc">Valley highland malt — gentle, fruity, elegantly refined</p>
-    </div>
+    </a>
   </div>
 </section>
 
