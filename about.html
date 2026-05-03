@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Our Story — Sakura Spirits</title>
+  <link rel="stylesheet" href="shared.css" />
+  <style>
+    /* FULL-BLEED HERO */
+    .about-hero {
+      min-height: 85vh;
+      background: var(--brown-deep);
+      display: flex;
+      align-items: flex-end;
+      position: relative;
+      overflow: hidden;
+      padding-bottom: 5rem;
+    }
+
+    .about-hero-bg {
+      position: absolute; inset: 0;
+      background:
+        radial-gradient(ellipse 55% 70% at 80% 40%, #3d2b1a 0%, transparent 65%),
+        radial-gradient(ellipse 40% 60% at 10% 90%, rgba(200,146,42,0.06) 0%, transparent 60%),
+        var(--brown-deep);
+    }
+
+    .about-hero-inner {
+      position: relative; z-index: 2;
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0 var(--page-pad);
+      width: 100%;
+    }
+
+    .about-hero-kicker {
+      font-family: 'Noto Serif JP', serif; font-size: 0.75rem;
+      letter-spacing: 0.45em; color: var(--amber); margin-bottom: 1rem;
+      opacity: 0; animation: fade-up 0.8s 0.4s forwards;
+    }
+
+    .about-hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(3rem, 7vw, 7rem);
+      font-weight: 300; color: var(--cream);
+      line-height: 1.0; letter-spacing: -0.01em;
+      opacity: 0; animation: fade-up 0.9s 0.6s forwards;
+    }
+
+    .about-hero-title em { font-style: italic; color: var(--amber-light); }
+
+    .about-hero-sub {
+      max-width: 580px;
+      font-size: clamp(1rem, 1.3vw, 1.1rem);
+      color: var(--cream-dark); opacity: 0;
+      animation: fade-up 0.9s 0.85s forwards;
+      margin-top: 1.5rem; line-height: 1.8;
+    }
+
+    @keyframes fade-up {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Large decorative kanji */
+    .deco-kanji {
+      position: absolute; right: 8%; top: 50%;
+      transform: translateY(-50%);
+      font-family: 'Noto Serif JP', serif;
+      font-size: clamp(12rem, 22vw, 22rem);
+      font-weight: 300;
+      color: rgba(200,146,42,0.07);
+      letter-spacing: -0.05em;
+      line-height: 1;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    /* VALUES GRID */
+    .values {
+      padding: 6rem var(--page-pad);
+      max-width: var(--max-w); margin: 0 auto;
+    }
+
+    .values-intro {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 4rem;
+      margin-bottom: 5rem; align-items: center;
+    }
+
+    .values-intro-text h2 {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      font-weight: 300; color: var(--brown-deep);
+      line-height: 1.15; margin-bottom: 1.5rem;
+    }
+
+    .values-intro-text h2 em { font-style: italic; color: var(--amber); }
+
+    .values-intro-text p {
+      color: var(--text-main); font-size: 1rem;
+      line-height: 1.85; margin-bottom: 1rem; opacity: 0.9;
+    }
+
+    .values-quote {
+      background: var(--brown-deep);
+      padding: 5.5rem 3rem 3rem;
+      position: relative;
+    }
+
+    .values-quote::before {
+      content: '「';
+      position: absolute; top: 1rem; left: 1.5rem;
+      font-family: 'Noto Serif JP', serif;
+      font-size: 4rem; color: var(--amber); opacity: 0.4;
+      line-height: 1;
+    }
+
+    .values-quote blockquote {
+      font-family: var(--font-display);
+      font-size: clamp(1.3rem, 2vw, 1.7rem);
+      font-weight: 300; font-style: italic;
+      color: var(--cream); line-height: 1.5;
+    }
+
+    .values-quote cite {
+      display: block; margin-top: 1.2rem;
+      font-family: var(--font-display); font-size: 0.75rem;
+      letter-spacing: 0.25em; text-transform: uppercase;
+      color: var(--amber); font-style: normal;
+    }
+
+    /* Values list */
+    .values-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 1px; background: var(--cream-deeper);
+    }
+
+    .value-item {
+      background: var(--cream); padding: 2.5rem 2rem;
+      transition: background 0.3s;
+    }
+
+    .value-item:hover { background: var(--brown-deep); }
+    .value-item:hover .value-name,
+    .value-item:hover .value-desc { color: var(--cream); }
+    .value-item:hover .value-num { color: var(--amber); }
+
+    .value-num {
+      font-family: var(--font-display); font-size: 3rem; font-weight: 300;
+      color: var(--amber-light); line-height: 1; margin-bottom: 0.8rem;
+      transition: color 0.3s;
+    }
+
+    .value-name {
+      font-family: var(--font-display); font-size: 1.2rem; font-weight: 600;
+      color: var(--brown-deep); margin-bottom: 0.6rem;
+      transition: color 0.3s;
+    }
+
+    .value-jp {
+      font-family: 'Noto Serif JP', serif; font-size: 0.8rem;
+      color: var(--amber); margin-bottom: 0.6rem;
+    }
+
+    .value-desc {
+      font-size: 0.88rem; color: var(--text-muted);
+      line-height: 1.7; transition: color 0.3s;
+    }
+
+    /* TIMELINE */
+    .timeline-section {
+      background: var(--brown-deep); padding: 6rem var(--page-pad);
+      position: relative; overflow: hidden;
+    }
+
+    .timeline-inner { max-width: var(--max-w); margin: 0 auto; }
+
+    .timeline-section h2 {
+      font-family: var(--font-display);
+      font-size: clamp(1.8rem, 3vw, 2.8rem);
+      font-weight: 300; color: var(--cream); margin-bottom: 4rem;
+    }
+
+    .timeline-section h2 em { font-style: italic; color: var(--amber-light); }
+
+    .timeline {
+      display: flex; flex-direction: column; gap: 0;
+      border-left: 1px solid rgba(200,146,42,0.3);
+      margin-left: 2rem;
+    }
+
+    .timeline-item {
+      position: relative; padding: 0 0 3rem 3rem;
+    }
+
+    .timeline-item::before {
+      content: '';
+      position: absolute; left: -5px; top: 6px;
+      width: 9px; height: 9px; border-radius: 50%;
+      background: var(--amber);
+    }
+
+    .timeline-year {
+      font-family: var(--font-display); font-size: 0.72rem;
+      letter-spacing: 0.3em; color: var(--amber); margin-bottom: 0.4rem;
+    }
+
+    .timeline-event {
+      font-family: var(--font-display); font-size: 1.15rem; font-weight: 500;
+      color: var(--cream); margin-bottom: 0.4rem;
+    }
+
+    .timeline-desc {
+      font-size: 0.88rem; color: var(--cream-dark); opacity: 0.7;
+      max-width: 480px; line-height: 1.7;
+    }
+
+    /* TEAM */
+    .team-section {
+      padding: 6rem var(--page-pad); max-width: var(--max-w); margin: 0 auto;
+    }
+
+    .team-section h2 {
+      font-family: var(--font-display);
+      font-size: clamp(1.8rem, 3vw, 2.8rem);
+      font-weight: 300; color: var(--brown-deep); margin-bottom: 3rem;
+    }
+
+    .team-section h2 em { font-style: italic; color: var(--amber); }
+
+    .team-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 1.5px; background: var(--cream-deeper);
+    }
+
+    .team-card {
+      background: var(--cream); padding: 0;
+      overflow: hidden;
+    }
+
+    .team-card-img {
+      aspect-ratio: 1/1;
+      background: var(--brown-mid);
+      display: flex; align-items: center; justify-content: center;
+      position: relative; overflow: hidden;
+    }
+
+    .team-card-img-bg {
+      position: absolute; inset: 0;
+      transition: transform 0.5s ease;
+    }
+
+    .team-card:hover .team-card-img-bg { transform: scale(1.05); }
+
+    .team-card-initials {
+      position: relative; z-index: 1;
+      font-family: 'Noto Serif JP', serif;
+      font-size: 3rem; color: rgba(245,234,208,0.25);
+    }
+
+    .team-card-body { padding: 1.5rem 1.8rem 2rem; }
+
+    .team-card-name {
+      font-family: var(--font-display); font-size: 1.25rem; font-weight: 500;
+      color: var(--brown-deep); margin-bottom: 0.2rem;
+    }
+
+    .team-card-role {
+      font-family: var(--font-display); font-size: 0.72rem;
+      letter-spacing: 0.25em; text-transform: uppercase;
+      color: var(--amber); margin-bottom: 0.8rem;
+    }
+
+    .team-card-bio {
+      font-size: 0.88rem; color: var(--text-muted); line-height: 1.7;
+    }
+
+    @media (max-width: 900px) {
+      .values-intro { grid-template-columns: 1fr; }
+      .values-grid { grid-template-columns: 1fr 1fr; }
+      .team-grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 600px) {
+      .values-grid { grid-template-columns: 1fr; }
+      .team-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="index.html" class="nav-logo">
+    <span class="nav-logo-en">Sakura Spirits</span>
+    <span class="nav-logo-jp">さくらスピリッツ</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="shop.html">Shop</a></li>
+    <li><a href="reviews.html">Reviews</a></li>
+    <li><a href="about.html" class="active">Our Story</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+  <button class="nav-cart" onclick="window.location.href='shop.html'">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+    <span>Cart</span>
+    <span class="nav-cart-count" id="cartCount">0</span>
+  </button>
+</nav>
+
+<!-- HERO -->
+<section class="about-hero">
+  <div class="about-hero-bg"></div>
+  <div class="deco-kanji">物語</div>
+
+  <div class="about-hero-inner">
+    <p class="about-hero-kicker">私たちについて</p>
+    <h1 class="about-hero-title">Our <em>Story</em></h1>
+    <p class="about-hero-sub">
+      Born from a journey to Japan and a life-changing dram of Yamazaki 18 — Sakura Spirits exists to share the wonder of Japanese whisky with the world.
+    </p>
+  </div>
+</section>
+
+<!-- VALUES + INTRO -->
+<section class="values">
+  <div class="values-intro reveal">
+    <div class="values-intro-text">
+      <h2>Rooted in <em>Respect</em><br />for the Craft</h2>
+      <p>
+        It started with a single glass in a tiny Kyoto bar in 2018. The bartender — a woman who had spent thirty years studying whisky — poured a measure of Yamazaki 18 Year without a word and slid it across the counter.
+      </p>
+      <p>
+        That moment changed everything. We returned from Japan knowing that the world deserved better access to these extraordinary spirits. Sakura Spirits was founded the following year.
+      </p>
+      <p>
+        Today we work directly with distilleries, importers, and collectors to source expressions that are genuinely worth your time — and your money.
+      </p>
+      <a href="shop.html" class="btn-primary" style="margin-top:1.5rem"><span>Explore the Collection</span></a>
+    </div>
+    <div class="values-quote">
+      <blockquote>
+        "The Japanese do not make whisky. They cultivate it — with the same devotion a gardener gives to cherry trees."
+      </blockquote>
+      <cite>— Emma Thornton, Founder</cite>
+    </div>
+  </div>
+
+  <div class="values-grid reveal" style="transition-delay:0.15s">
+    <div class="value-item">
+      <div class="value-num">01</div>
+      <div class="value-name">Monozukuri</div>
+      <div class="value-jp">物作り</div>
+      <p class="value-desc">The art of making things — with care, precision, and devotion. Every bottle we carry embodies this principle.</p>
+    </div>
+    <div class="value-item">
+      <div class="value-num">02</div>
+      <div class="value-name">Ma</div>
+      <div class="value-jp">間</div>
+      <p class="value-desc">The Japanese concept of negative space and pause. We believe great whisky, like great design, requires knowing what to leave out.</p>
+    </div>
+    <div class="value-item">
+      <div class="value-num">03</div>
+      <div class="value-name">Shokunin</div>
+      <div class="value-jp">職人</div>
+      <p class="value-desc">The spirit of the artisan — someone who gives their whole life to mastering a single skill. We honour this in every distillery we partner with.</p>
+    </div>
+  </div>
+</section>
+
+<!-- TIMELINE -->
+<section class="timeline-section">
+  <div class="timeline-inner">
+    <h2 class="reveal">A Brief <em>History</em></h2>
+    <div class="timeline reveal" style="transition-delay:0.1s">
+      <div class="timeline-item">
+        <p class="timeline-year">1923</p>
+        <p class="timeline-event">Yamazaki Distillery Founded</p>
+        <p class="timeline-desc">Shinjiro Torii establishes Japan's first malt whisky distillery at the confluence of three rivers south of Kyoto.</p>
+      </div>
+      <div class="timeline-item">
+        <p class="timeline-year">1934</p>
+        <p class="timeline-event">Masataka Taketsuru Opens Yoichi</p>
+        <p class="timeline-desc">Having trained in Scotland, Taketsuru founds Nikka in Hokkaido — choosing a climate reminiscent of his beloved Highlands.</p>
+      </div>
+      <div class="timeline-item">
+        <p class="timeline-year">2001</p>
+        <p class="timeline-event">Japanese Whisky Goes Global</p>
+        <p class="timeline-desc">Nikka's single cask wins at the Whisky Magazine World Whiskies Awards, marking the moment the world sat up and took notice.</p>
+      </div>
+      <div class="timeline-item">
+        <p class="timeline-year">2018</p>
+        <p class="timeline-event">The Glass in Kyoto</p>
+        <p class="timeline-desc">Our founder Emma Thornton has a life-changing encounter with Yamazaki 18 Year in a Kyoto bar. Sakura Spirits is conceived that evening.</p>
+      </div>
+      <div class="timeline-item">
+        <p class="timeline-year">2019</p>
+        <p class="timeline-event">Sakura Spirits Founded</p>
+        <p class="timeline-desc">We open our doors — first as an online retailer, then expanding to a curated selection of the finest Japanese expressions available outside Japan.</p>
+      </div>
+      <div class="timeline-item">
+        <p class="timeline-year">2026</p>
+        <p class="timeline-event">Seven Expressions, One Philosophy</p>
+        <p class="timeline-desc">Today we carry seven carefully chosen whiskies, each one a conversation with Japan's extraordinary distilling heritage.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TEAM -->
+<section class="team-section">
+  <h2 class="reveal">The <em>Team</em></h2>
+  <div class="team-grid reveal" style="transition-delay:0.1s">
+    <div class="team-card">
+      <div class="team-card-img">
+        <div class="team-card-img-bg" style="background: linear-gradient(160deg, #3d2b1a 0%, #1a1208 100%)"></div>
+        <div class="team-card-initials">ET</div>
+      </div>
+      <div class="team-card-body">
+        <h3 class="team-card-name">Emma Thornton</h3>
+        <p class="team-card-role">Founder &amp; Head Buyer</p>
+        <p class="team-card-bio">Former sommelier and obsessive Japanese whisky enthusiast. Has visited every major distillery in Japan at least twice. Speaks passable Japanese, drinks excellent whisky.</p>
+      </div>
+    </div>
+    <div class="team-card">
+      <div class="team-card-img">
+        <div class="team-card-img-bg" style="background: linear-gradient(160deg, #1e3a5f 0%, #0d1a2e 100%)"></div>
+        <div class="team-card-initials">KW</div>
+      </div>
+      <div class="team-card-body">
+        <h3 class="team-card-name">Kenji Watanabe</h3>
+        <p class="team-card-role">Japan Liaison &amp; Master Taster</p>
+        <p class="team-card-bio">Born in Osaka, trained at Suntory, now splits his time between Tokyo and London. Kenji is our connection to the distilleries and the keeper of our tasting notes.</p>
+      </div>
+    </div>
+    <div class="team-card">
+      <div class="team-card-img">
+        <div class="team-card-img-bg" style="background: linear-gradient(160deg, #5a2a0a 0%, #2d1408 100%)"></div>
+        <div class="team-card-initials">SL</div>
+      </div>
+      <div class="team-card-body">
+        <h3 class="team-card-name">Sophie Laurent</h3>
+        <p class="team-card-role">Editorial &amp; Community</p>
+        <p class="team-card-bio">Whisky writer, former journalist, and firm believer that the best whisky stories are told over a shared glass. Writes all of our longer reviews and community letters.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="footer-grid">
+    <div>
+      <div class="footer-brand-name">Sakura Spirits</div>
+      <div class="footer-brand-jp">さくらスピリッツ</div>
+      <p class="footer-brand-desc">A celebration of Japan's extraordinary whisky tradition.</p>
+    </div>
+    <div><p class="footer-col-title">Navigate</p><ul class="footer-links"><li><a href="index.html">Home</a></li><li><a href="shop.html">Shop</a></li><li><a href="reviews.html">Reviews</a></li><li><a href="about.html">Our Story</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+    <div><p class="footer-col-title">Distilleries</p><ul class="footer-links"><li><a href="shop.html">Yamazaki</a></li><li><a href="shop.html">Hakushu</a></li><li><a href="shop.html">Yoichi</a></li><li><a href="shop.html">Miyagikyo</a></li></ul></div>
+    <div><p class="footer-col-title">Legal</p><ul class="footer-links"><li><a href="#">Privacy Policy</a></li><li><a href="#">Terms of Service</a></li><li><a href="#">Shipping Info</a></li></ul></div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Sakura Spirits. All rights reserved.</span>
+    <span>Must be 18+. Please drink responsibly.</span>
+  </div>
+</footer>
+
+<script>
+function updateCartCount() {
+  const cart = JSON.parse(localStorage.getItem('sakura_cart') || '[]');
+  document.getElementById('cartCount').textContent = cart.reduce((s,i)=>s+i.qty,0);
+}
+updateCartCount();
+
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.08 });
+document.querySelectorAll('.reveal').forEach(r => observer.observe(r));
+</script>
+</body>
+</html>

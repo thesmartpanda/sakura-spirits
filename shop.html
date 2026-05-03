@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shop — Sakura Spirits</title>
+  <link rel="stylesheet" href="shared.css" />
+  <style>
+    .page-hero {
+      background: var(--brown-deep);
+      padding: calc(var(--nav-height) + 3.5rem) var(--page-pad) 3.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .page-hero-inner {
+      max-width: var(--max-w);
+      margin: 0 auto;
+    }
+
+    .page-hero-kicker {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.4em;
+      color: var(--amber);
+      margin-bottom: 0.8rem;
+    }
+
+    .page-hero h1 {
+      font-family: var(--font-display);
+      font-size: clamp(2.8rem, 6vw, 5rem);
+      font-weight: 300;
+      color: var(--cream);
+      line-height: 1.05;
+    }
+
+    .page-hero h1 em {
+      font-style: italic;
+      color: var(--amber-light);
+    }
+
+    /* FILTER BAR */
+    .filter-bar {
+      background: white;
+      border-bottom: 1px solid var(--cream-deeper);
+      padding: 0 var(--page-pad);
+      position: sticky;
+      top: var(--nav-height);
+      z-index: 100;
+    }
+
+    .filter-bar-inner {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      height: 56px;
+      overflow-x: auto;
+    }
+
+    .filter-label {
+      font-family: var(--font-display);
+      font-size: 0.72rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    .filter-chip {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.35rem 1rem;
+      border: 1px solid var(--cream-deeper);
+      background: none;
+      font-family: var(--font-display);
+      font-size: 0.8rem;
+      letter-spacing: 0.1em;
+      color: var(--text-main);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s;
+      flex-shrink: 0;
+    }
+
+    .filter-chip:hover,
+    .filter-chip.active {
+      background: var(--brown-deep);
+      color: var(--cream);
+      border-color: var(--brown-deep);
+    }
+
+    .filter-sort {
+      margin-left: auto;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-family: var(--font-display);
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .filter-sort select {
+      border: 1px solid var(--cream-deeper);
+      background: none;
+      font-family: var(--font-display);
+      font-size: 0.8rem;
+      color: var(--text-main);
+      padding: 0.3rem 0.6rem;
+      outline: none;
+      cursor: pointer;
+    }
+
+    /* SHOP GRID */
+    .shop-section {
+      padding: 3rem var(--page-pad) 5rem;
+      max-width: var(--max-w);
+      margin: 0 auto;
+    }
+
+    .shop-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.5px;
+      background: var(--cream-deeper);
+    }
+
+    .whisky-card {
+      background: var(--cream);
+      position: relative;
+      cursor: pointer;
+      transition: box-shadow 0.3s;
+    }
+
+    .whisky-card:hover {
+      z-index: 2;
+      box-shadow: 0 8px 40px rgba(26,18,8,0.18);
+    }
+
+    .whisky-card-img {
+      width: 100%;
+      aspect-ratio: 3/3.5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .whisky-card-img-inner {
+      position: absolute;
+      inset: 0;
+      transition: transform 0.5s ease;
+    }
+
+    .whisky-card:hover .whisky-card-img-inner {
+      transform: scale(1.04);
+    }
+
+    .whisky-card-badge {
+      position: absolute;
+      top: 1rem;
+      left: 1rem;
+      background: var(--brown-deep);
+      color: var(--amber);
+      font-family: var(--font-display);
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      padding: 0.25rem 0.65rem;
+      z-index: 2;
+    }
+
+    .whisky-card-body {
+      padding: 1.4rem 1.6rem 1rem;
+    }
+
+    .whisky-card-region {
+      font-family: var(--font-display);
+      font-size: 0.68rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 0.3rem;
+    }
+
+    .whisky-card-name {
+      font-family: var(--font-display);
+      font-size: 1.35rem;
+      font-weight: 500;
+      color: var(--brown-deep);
+      line-height: 1.2;
+      margin-bottom: 0.2rem;
+    }
+
+    .whisky-card-sub {
+      font-size: 0.83rem;
+      color: var(--text-muted);
+      margin-bottom: 0.8rem;
+    }
+
+    .whisky-card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 1.6rem 1.4rem;
+      border-top: 1px solid var(--cream-dark);
+    }
+
+    .whisky-price {
+      font-family: var(--font-display);
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--brown-deep);
+    }
+
+    .whisky-price-sub {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      margin-top: 0.1rem;
+    }
+
+    .add-cart-btn {
+      background: var(--brown-deep);
+      color: var(--cream);
+      border: none;
+      font-family: var(--font-display);
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 0.65rem 1.2rem;
+      cursor: pointer;
+      transition: all 0.25s;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .add-cart-btn:hover {
+      background: var(--amber);
+      color: var(--brown-deep);
+    }
+
+    .add-cart-btn.added {
+      background: var(--amber);
+      color: var(--brown-deep);
+    }
+
+    /* TASTING NOTE DRAWER */
+    .tasting-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(26,18,8,0.7);
+      z-index: 2000;
+      display: flex;
+      align-items: flex-end;
+      justify-content: flex-end;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s;
+    }
+
+    .tasting-overlay.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .tasting-drawer {
+      background: var(--cream);
+      width: min(520px, 100%);
+      height: 100vh;
+      overflow-y: auto;
+      transform: translateX(100%);
+      transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .tasting-overlay.open .tasting-drawer {
+      transform: translateX(0);
+    }
+
+    .drawer-header {
+      background: var(--brown-deep);
+      padding: 2rem 2rem 1.5rem;
+      position: relative;
+    }
+
+    .drawer-close {
+      position: absolute;
+      top: 1.2rem;
+      right: 1.2rem;
+      background: none;
+      border: none;
+      color: var(--cream-dark);
+      font-size: 1.5rem;
+      cursor: pointer;
+      transition: color 0.2s;
+    }
+
+    .drawer-close:hover { color: var(--amber); }
+
+    .drawer-region {
+      font-family: var(--font-display);
+      font-size: 0.7rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 0.4rem;
+    }
+
+    .drawer-name {
+      font-family: var(--font-display);
+      font-size: 1.9rem;
+      font-weight: 300;
+      color: var(--cream);
+      line-height: 1.2;
+    }
+
+    .drawer-meta {
+      margin-top: 0.5rem;
+      font-size: 0.85rem;
+      color: var(--cream-dark);
+      opacity: 0.7;
+    }
+
+    .drawer-body {
+      padding: 2rem;
+    }
+
+    .drawer-section-title {
+      font-family: var(--font-display);
+      font-size: 0.72rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 0.8rem;
+      margin-top: 1.8rem;
+    }
+
+    .drawer-section-title:first-child { margin-top: 0; }
+
+    .tasting-note-text {
+      font-size: 0.95rem;
+      color: var(--text-main);
+      line-height: 1.8;
+    }
+
+    .flavor-profile {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+      margin-top: 0.5rem;
+    }
+
+    .flavor-bar-row {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .flavor-bar-label {
+      font-family: var(--font-display);
+      font-size: 0.82rem;
+      width: 90px;
+      flex-shrink: 0;
+      color: var(--text-main);
+    }
+
+    .flavor-bar-track {
+      flex: 1;
+      height: 4px;
+      background: var(--cream-deeper);
+      position: relative;
+    }
+
+    .flavor-bar-fill {
+      position: absolute;
+      left: 0;
+      top: 0;
+      height: 100%;
+      background: var(--amber);
+      transition: width 0.8s ease;
+    }
+
+    .flavor-bar-val {
+      font-family: var(--font-display);
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      width: 24px;
+      text-align: right;
+    }
+
+    .drawer-price-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--cream-dark);
+    }
+
+    .drawer-price {
+      font-family: var(--font-display);
+      font-size: 1.8rem;
+      font-weight: 600;
+      color: var(--brown-deep);
+    }
+
+    .drawer-add-btn {
+      background: var(--amber);
+      color: var(--brown-deep);
+      border: none;
+      font-family: var(--font-display);
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      padding: 0.9rem 2rem;
+      cursor: pointer;
+      transition: all 0.25s;
+    }
+
+    .drawer-add-btn:hover {
+      background: var(--brown-deep);
+      color: var(--amber);
+    }
+  </style>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="index.html" class="nav-logo">
+    <span class="nav-logo-en">Sakura Spirits</span>
+    <span class="nav-logo-jp">さくらスピリッツ</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="shop.html" class="active">Shop</a></li>
+    <li><a href="reviews.html">Reviews</a></li>
+    <li><a href="about.html">Our Story</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+  <button class="nav-cart" onclick="toggleCartToast()">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+    <span>Cart</span>
+    <span class="nav-cart-count" id="cartCount">0</span>
+  </button>
+</nav>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <div class="page-hero-inner">
+    <p class="page-hero-kicker">コレクション</p>
+    <h1>The <em>Collection</em></h1>
+  </div>
+  <svg class="torii-accent" style="right:2%;bottom:-20px;width:220px;height:300px" viewBox="0 0 300 600" fill="none">
+    <rect x="40" y="120" width="28" height="480" fill="#c8922a"/>
+    <rect x="232" y="120" width="28" height="480" fill="#c8922a"/>
+    <rect x="10" y="60" width="280" height="30" fill="#c8922a"/>
+    <path d="M10 60 Q0 40 10 30 L20 60Z" fill="#c8922a"/>
+    <path d="M290 60 Q300 40 290 30 L280 60Z" fill="#c8922a"/>
+    <rect x="30" y="105" width="240" height="18" fill="#c8922a"/>
+  </svg>
+</div>
+
+<!-- FILTER BAR -->
+<div class="filter-bar">
+  <div class="filter-bar-inner">
+    <span class="filter-label">Filter:</span>
+    <button class="filter-chip active" onclick="setFilter('all',this)">All</button>
+    <button class="filter-chip" onclick="setFilter('yamazaki',this)">Yamazaki</button>
+    <button class="filter-chip" onclick="setFilter('hakushu',this)">Hakushu</button>
+    <button class="filter-chip" onclick="setFilter('yoichi',this)">Yoichi</button>
+    <button class="filter-chip" onclick="setFilter('nikka',this)">Nikka</button>
+    <button class="filter-chip" onclick="setFilter('hibiki',this)">Hibiki</button>
+
+    <div class="filter-sort">
+      <span>Sort:</span>
+      <select id="sortSelect" onchange="sortWhiskies()">
+        <option value="featured">Featured</option>
+        <option value="price-asc">Price ↑</option>
+        <option value="price-desc">Price ↓</option>
+        <option value="rating">Top Rated</option>
+      </select>
+    </div>
+  </div>
+</div>
+
+<!-- SHOP GRID -->
+<div class="shop-section">
+  <div class="shop-grid" id="shopGrid"></div>
+</div>
+
+<!-- TASTING DRAWER -->
+<div class="tasting-overlay" id="tastingOverlay" onclick="closeDrawer(event)">
+  <div class="tasting-drawer" id="tastingDrawer">
+    <div class="drawer-header">
+      <button class="drawer-close" onclick="closeDrawerDirect()">✕</button>
+      <p class="drawer-region" id="drawerRegion"></p>
+      <h2 class="drawer-name" id="drawerName"></h2>
+      <p class="drawer-meta" id="drawerMeta"></p>
+    </div>
+    <div class="drawer-body">
+      <p class="drawer-section-title">Nose</p>
+      <p class="tasting-note-text" id="drawerNose"></p>
+      <p class="drawer-section-title">Palate</p>
+      <p class="tasting-note-text" id="drawerPalate"></p>
+      <p class="drawer-section-title">Finish</p>
+      <p class="tasting-note-text" id="drawerFinish"></p>
+      <p class="drawer-section-title">Flavour Profile</p>
+      <div class="flavor-profile" id="drawerFlavors"></div>
+      <div class="drawer-price-row">
+        <div>
+          <div class="drawer-price" id="drawerPrice"></div>
+          <div class="whisky-price-sub" id="drawerPriceSub"></div>
+        </div>
+        <button class="drawer-add-btn" id="drawerAddBtn">Add to Cart</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CART TOAST -->
+<div id="cartToast" style="position:fixed;bottom:2rem;right:2rem;background:var(--brown-deep);color:var(--cream);padding:1rem 1.5rem;font-family:var(--font-display);font-size:0.9rem;transform:translateY(100px);transition:transform 0.3s;z-index:3000;pointer-events:none;">
+  ✓ Added to cart
+</div>
+
+<footer class="footer">
+  <div class="footer-grid">
+    <div>
+      <div class="footer-brand-name">Sakura Spirits</div>
+      <div class="footer-brand-jp">さくらスピリッツ</div>
+      <p class="footer-brand-desc">Curated Japanese whisky expressions, delivered with care.</p>
+    </div>
+    <div>
+      <p class="footer-col-title">Navigate</p>
+      <ul class="footer-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="shop.html">Shop</a></li>
+        <li><a href="reviews.html">Reviews</a></li>
+        <li><a href="about.html">Our Story</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </div>
+    <div>
+      <p class="footer-col-title">Distilleries</p>
+      <ul class="footer-links">
+        <li><a href="#">Yamazaki</a></li>
+        <li><a href="#">Hakushu</a></li>
+        <li><a href="#">Yoichi</a></li>
+        <li><a href="#">Miyagikyo</a></li>
+        <li><a href="#">Hibiki</a></li>
+      </ul>
+    </div>
+    <div>
+      <p class="footer-col-title">Legal</p>
+      <ul class="footer-links">
+        <li><a href="#">Age Verification</a></li>
+        <li><a href="#">Privacy Policy</a></li>
+        <li><a href="#">Terms of Service</a></li>
+        <li><a href="#">Shipping Info</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Sakura Spirits. All rights reserved.</span>
+    <span>You must be 18+ to purchase. Please drink responsibly.</span>
+  </div>
+</footer>
+
+<script>
+const WHISKIES = [
+  {
+    id: 1, filter: 'yamazaki',
+    region: 'Yamazaki Distillery', name: 'Yamazaki 12 Year', sub: 'Single Malt · 43% ABV · 70cl',
+    age: '12 Years', abv: '43%', price: '¥18,500', priceSub: '£115 · Free UK delivery',
+    priceNum: 115, rating: 4.9, badge: 'Best Seller',
+    nose: 'Delicate peach and apricot with honeysuckle and vanilla. A whisper of coconut from Mizunara oak, with faint dried rose petals.',
+    palate: 'Silky entry of ripe pear and pineapple. Clove spice builds gently alongside rich toffee and toasted oak. Beautifully layered.',
+    finish: 'Long and warming, fading to dark chocolate and cedar with a subtle floral sweetness that lingers.',
+    flavors: [{name:'Fruity',val:88},{name:'Floral',val:75},{name:'Sweet',val:70},{name:'Spicy',val:40},{name:'Smoky',val:12}],
+    bg: 'linear-gradient(160deg, #3d2b1a 0%, #1a1208 60%, #c8922a22 100%)',
+    kanji: '山崎'
+  },
+  // {
+  //   id: 2, filter: 'hakushu',
+  //   region: 'Hakushu Distillery', name: 'Hakushu 18 Year', sub: 'Single Malt · 43% ABV · 70cl',
+  //   age: '18 Years', abv: '43%', price: '¥42,000', priceSub: '£265 · Free UK delivery',
+  //   priceNum: 265, rating: 4.8, badge: 'Rare',
+  //   nose: 'Forest pine and fresh mint over crisp green apple. Hints of white peach, grapefruit zest, and a gentle peat smoke from afar.',
+  //   palate: 'Clean and vivid. Minty freshness gives way to creamy vanilla, with a distinct herbal quality. Lightly smoky and wonderfully balanced.',
+  //   finish: 'Medium-long, herbaceous and cooling. Green tea and citrus peel fade into delicate white smoke.',
+  //   flavors: [{name:'Herbal',val:85},{name:'Fruity',val:68},{name:'Smoky',val:38},{name:'Sweet',val:55},{name:'Floral',val:60}],
+  //   bg: 'linear-gradient(160deg, #1a3020 0%, #0d1a12 60%, #c9a84c18 100%)',
+  //   kanji: '白州'
+  // },
+  {
+    id: 3, filter: 'yoichi',
+    region: 'Yoichi Distillery', name: 'Yoichi Single Malt', sub: 'NAS · 45% ABV · 70cl',
+    age: 'Non-Age Statement', abv: '45%', price: '¥9,800', priceSub: '£62 · Free UK delivery',
+    priceNum: 62, rating: 4.6, badge: null,
+    nose: 'Robust and maritime. Sea salt, malt, and wood smoke arrive first, followed by dried fruit and a pleasing oil quality reminiscent of coastal Scotch.',
+    palate: 'Full-bodied and direct. Peat smoke, black pepper, dried apricot, and a hint of espresso. Wonderfully assertive.',
+    finish: 'Long and smoky with lingering pepper and dark fruit. Warming and deeply satisfying.',
+    flavors: [{name:'Smoky',val:80},{name:'Spicy',val:75},{name:'Fruity',val:50},{name:'Sweet',val:42},{name:'Herbal',val:30}],
+    bg: 'linear-gradient(160deg, #5a2a0a 0%, #2d1408 60%, #c8922a22 100%)',
+    kanji: '余市'
+  },
+  {
+    id: 4, filter: 'nikka',
+    region: 'Nikka Whisky', name: 'Nikka From The Barrel', sub: 'Blended · 51.4% ABV · 50cl',
+    age: 'Blended', abv: '51.4%', price: '¥6,200', priceSub: '£42 · Free UK delivery',
+    priceNum: 42, rating: 4.7, badge: 'Top Value',
+    nose: 'Punchy and rich. Dried cherry, dark chocolate, malt, and warming cask spice. Complex beyond its price.',
+    palate: 'Dense and oily at cask strength. Layers of vanilla, toasted oak, dried fruits, and black pepper unfurl on the palate.',
+    finish: 'Long and surprisingly smooth for the ABV. Caramel, oak, and dark fruit linger pleasantly.',
+    flavors: [{name:'Sweet',val:72},{name:'Spicy',val:70},{name:'Fruity',val:65},{name:'Smoky',val:35},{name:'Herbal',val:28}],
+    bg: 'linear-gradient(160deg, #2a1a3d 0%, #140820 60%, #c9a84c18 100%)',
+    kanji: '竹鶴'
+  },
+  {
+    id: 5, filter: 'hibiki',
+    region: 'Suntory — Hibiki', name: 'Hibiki Japanese Harmony', sub: 'Blended · 43% ABV · 70cl',
+    age: 'Blended', abv: '43%', price: '¥12,800', priceSub: '£80 · Free UK delivery',
+    priceNum: 80, rating: 4.7, badge: null,
+    nose: 'Seductively gentle. Honeyed orange peel, white flowers, and vanilla with hints of rose and sandalwood.',
+    palate: 'Harmonious and elegant — the name says it all. Candied citrus, honey, and soft oak integrate seamlessly. An ideal introduction.',
+    finish: 'Medium and warm. Honey and soft wood fade slowly, leaving a gentle sweetness.',
+    flavors: [{name:'Floral',val:80},{name:'Sweet',val:78},{name:'Fruity',val:68},{name:'Herbal',val:35},{name:'Smoky',val:10}],
+    bg: 'linear-gradient(160deg, #3a1e0a 0%, #1e0e05 60%, #e0b86a22 100%)',
+    kanji: '響'
+  },
+  {
+    id: 6, filter: 'yamazaki',
+    region: 'Yamazaki Distillery', name: 'Yamazaki 18 Year', sub: 'Single Malt · 43% ABV · 70cl',
+    age: '18 Years', abv: '43%', price: '¥68,000', priceSub: '£430 · Free UK delivery',
+    priceNum: 430, rating: 5.0, badge: 'Collector',
+    nose: 'Deeply complex. Ripe plum, black fig, candied orange peel, and an intoxicating Mizunara incense note. Something close to perfection.',
+    palate: 'Velvety and profound. Dark fruit compote, rich toffee, mocha, and a subtle sandalwood spice. Endlessly revealing.',
+    finish: 'Extraordinarily long. Dried fruit, dark chocolate, and the signature cedar of aged Mizunara oak echo for minutes.',
+    flavors: [{name:'Fruity',val:90},{name:'Sweet',val:82},{name:'Floral',val:72},{name:'Spicy',val:55},{name:'Smoky',val:20}],
+    bg: 'linear-gradient(160deg, #4a2810 0%, #1a0e04 60%, #c8922a30 100%)',
+    kanji: '山崎'
+  },
+  {
+    id: 7, filter: 'nikka',
+    region: 'Nikka Whisky — Coffey', name: 'Nikka Coffey Grain', sub: 'Grain · 45% ABV · 70cl',
+    age: 'NAS', abv: '45%', price: '¥8,400', priceSub: '£53 · Free UK delivery',
+    priceNum: 53, rating: 4.5, badge: null,
+    nose: 'Unusually expressive for grain whisky. Vanilla cream soda, tropical fruit, butterscotch, and toasted coconut.',
+    palate: 'Sweet and indulgent. Ripe banana, tropical trifle, and rich vanilla custard. Playful and distinctive.',
+    finish: 'Medium, leaving tropical sweetness and a hint of warming spice. Surprisingly complex.',
+    flavors: [{name:'Sweet',val:90},{name:'Fruity',val:82},{name:'Floral',val:50},{name:'Spicy',val:30},{name:'Smoky',val:8}],
+    bg: 'linear-gradient(160deg, #1a2a3d 0%, #0a1520 60%, #c8922a18 100%)',
+    kanji: '日果'
+  }
+];
+
+let currentFilter = 'all';
+let currentWhisky = null;
+
+function renderGrid(items) {
+  const grid = document.getElementById('shopGrid');
+  grid.innerHTML = items.map(w => `
+    <div class="whisky-card" data-id="${w.id}">
+      <div class="whisky-card-img">
+        <div class="whisky-card-img-inner" style="background:${w.bg}"></div>
+        ${w.badge ? `<span class="whisky-card-badge">${w.badge}</span>` : ''}
+        <svg style="position:absolute;width:45%;height:auto;z-index:1" viewBox="0 0 80 220" fill="none">
+          <rect x="33" y="0" width="14" height="22" rx="3" fill="#c8922a" opacity=".7"/>
+          <rect x="30" y="18" width="20" height="8" rx="2" fill="#a0721f" opacity=".8"/>
+          <path d="M30 26 Q24 40 22 60 L22 200 Q22 210 40 210 Q58 210 58 200 L58 60 Q56 40 50 26Z" fill="#c8922a" opacity=".45"/>
+          <rect x="27" y="90" width="26" height="38" rx="2" fill="#f5ead0" opacity=".12"/>
+          <text x="40" y="114" text-anchor="middle" font-size="9" fill="#f5ead0" font-family="serif" opacity=".7">${w.kanji}</text>
+        </svg>
+      </div>
+      <div class="whisky-card-body">
+        <p class="whisky-card-region">${w.region}</p>
+        <h3 class="whisky-card-name">${w.name}</h3>
+        <p class="whisky-card-sub">${w.sub}</p>
+      </div>
+      <div class="whisky-card-footer">
+        <div>
+          <div class="whisky-price">${w.price}</div>
+          <div class="whisky-price-sub">${w.priceSub.split('·')[0].trim()}</div>
+        </div>
+        <div style="display:flex;gap:0.5rem">
+          <button class="add-cart-btn" style="background:none;border:1px solid var(--cream-deeper);color:var(--text-muted)" onclick="openDrawer(${w.id},event)" title="Tasting Notes">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          </button>
+          <button class="add-cart-btn" id="btn-${w.id}" onclick="addToCart(${w.id},event)">Add</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+
+  grid.querySelectorAll('.whisky-card').forEach(card => {
+    card.addEventListener('click', function(e) {
+      if (!e.target.closest('button')) openDrawer(parseInt(this.dataset.id), e);
+    });
+  });
+}
+
+function setFilter(filter, btn) {
+  currentFilter = filter;
+  document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+  btn.classList.add('active');
+  filterAndSort();
+}
+
+function sortWhiskies() { filterAndSort(); }
+
+function filterAndSort() {
+  let items = currentFilter === 'all' ? [...WHISKIES] : WHISKIES.filter(w => w.filter === currentFilter);
+  const sort = document.getElementById('sortSelect').value;
+  if (sort === 'price-asc') items.sort((a,b) => a.priceNum - b.priceNum);
+  else if (sort === 'price-desc') items.sort((a,b) => b.priceNum - a.priceNum);
+  else if (sort === 'rating') items.sort((a,b) => b.rating - a.rating);
+  renderGrid(items);
+}
+
+function openDrawer(id, e) {
+  if (e) e.stopPropagation();
+  const w = WHISKIES.find(x => x.id === id);
+  if (!w) return;
+  currentWhisky = w;
+  document.getElementById('drawerRegion').textContent = w.region;
+  document.getElementById('drawerName').textContent = w.name;
+  document.getElementById('drawerMeta').textContent = `${w.age} · ${w.abv} · ${w.sub.split('·').slice(-1)[0].trim()}`;
+  document.getElementById('drawerNose').textContent = w.nose;
+  document.getElementById('drawerPalate').textContent = w.palate;
+  document.getElementById('drawerFinish').textContent = w.finish;
+  document.getElementById('drawerPrice').textContent = w.price;
+  document.getElementById('drawerPriceSub').textContent = w.priceSub;
+
+  const flavDiv = document.getElementById('drawerFlavors');
+  flavDiv.innerHTML = w.flavors.map(f => `
+    <div class="flavor-bar-row">
+      <span class="flavor-bar-label">${f.name}</span>
+      <div class="flavor-bar-track"><div class="flavor-bar-fill" style="width:0%" data-val="${f.val}%"></div></div>
+      <span class="flavor-bar-val">${f.val}</span>
+    </div>`).join('');
+
+  document.getElementById('drawerAddBtn').onclick = () => addToCart(id);
+  document.getElementById('tastingOverlay').classList.add('open');
+
+  requestAnimationFrame(() => {
+    flavDiv.querySelectorAll('.flavor-bar-fill').forEach(bar => {
+      bar.style.width = bar.dataset.val;
+    });
+  });
+}
+
+function closeDrawer(e) {
+  if (e.target === document.getElementById('tastingOverlay')) closeDrawerDirect();
+}
+
+function closeDrawerDirect() {
+  document.getElementById('tastingOverlay').classList.remove('open');
+}
+
+function addToCart(id, e) {
+  if (e) e.stopPropagation();
+  const w = WHISKIES.find(x => x.id === id);
+  let cart = JSON.parse(localStorage.getItem('sakura_cart') || '[]');
+  const existing = cart.find(i => i.id === id);
+  if (existing) existing.qty++;
+  else cart.push({id, name: w.name, price: w.priceSub.split('·')[0].trim(), qty: 1});
+  localStorage.setItem('sakura_cart', JSON.stringify(cart));
+  updateCartCount();
+
+  const btn = document.getElementById('btn-' + id);
+  if (btn) {
+    btn.textContent = '✓';
+    btn.classList.add('added');
+    setTimeout(() => { btn.textContent = 'Add'; btn.classList.remove('added'); }, 1400);
+  }
+
+  showCartToast();
+  closeDrawerDirect();
+}
+
+function updateCartCount() {
+  const cart = JSON.parse(localStorage.getItem('sakura_cart') || '[]');
+  const total = cart.reduce((s, i) => s + i.qty, 0);
+  document.getElementById('cartCount').textContent = total;
+}
+
+function showCartToast() {
+  const t = document.getElementById('cartToast');
+  t.style.transform = 'translateY(0)';
+  setTimeout(() => { t.style.transform = 'translateY(100px)'; }, 2000);
+}
+
+function toggleCartToast() {
+  const cart = JSON.parse(localStorage.getItem('sakura_cart') || '[]');
+  if (!cart.length) return;
+  alert(cart.map(i => `${i.name} × ${i.qty} — ${i.price}`).join('\n') + `\n\nTotal items: ${cart.reduce((s,i)=>s+i.qty,0)}`);
+}
+
+filterAndSort();
+updateCartCount();
+
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.05 });
+document.querySelectorAll('.reveal').forEach(r => observer.observe(r));
+</script>
+</body>
+</html>

@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact — Sakura Spirits</title>
+  <link rel="stylesheet" href="shared.css" />
+  <style>
+    /* HERO */
+    .contact-hero {
+      background: var(--brown-deep);
+      padding: calc(var(--nav-height) + 4rem) var(--page-pad) 4rem;
+      position: relative; overflow: hidden;
+    }
+    .contact-hero-inner { max-width: var(--max-w); margin: 0 auto; }
+    .contact-hero-kicker {
+      font-family: 'Noto Serif JP', serif; font-size: 0.75rem;
+      letter-spacing: 0.45em; color: var(--amber); margin-bottom: 1rem;
+      opacity: 0; animation: fade-up 0.8s 0.3s forwards;
+    }
+    .contact-hero h1 {
+      font-family: var(--font-display);
+      font-size: clamp(3rem, 7vw, 6.5rem);
+      font-weight: 300; color: var(--cream); line-height: 1.0;
+      opacity: 0; animation: fade-up 0.9s 0.5s forwards;
+    }
+    .contact-hero h1 em { font-style: italic; color: var(--amber-light); }
+    .contact-hero p {
+      max-width: 480px; color: var(--cream-dark); opacity: 0;
+      font-size: 1rem; margin-top: 1.2rem; line-height: 1.8;
+      animation: fade-up 0.9s 0.7s forwards;
+    }
+    @keyframes fade-up {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* MAIN LAYOUT */
+    .contact-layout {
+      max-width: var(--max-w); margin: 0 auto;
+      padding: 5rem var(--page-pad) 6rem;
+      display: grid;
+      grid-template-columns: 1fr 1.4fr;
+      gap: 5rem;
+      align-items: start;
+    }
+
+    /* INFO COLUMN */
+    .contact-info {}
+
+    .info-block {
+      margin-bottom: 3rem;
+      padding-bottom: 3rem;
+      border-bottom: 1px solid var(--cream-deeper);
+    }
+    .info-block:last-child { border-bottom: none; }
+
+    .info-label {
+      font-family: var(--font-display); font-size: 0.7rem;
+      letter-spacing: 0.3em; text-transform: uppercase;
+      color: var(--amber); margin-bottom: 0.8rem;
+    }
+
+    .info-value {
+      font-family: var(--font-display); font-size: 1.2rem;
+      color: var(--brown-deep); line-height: 1.5; margin-bottom: 0.25rem;
+    }
+
+    .info-sub {
+      font-size: 0.88rem; color: var(--text-muted); line-height: 1.7;
+    }
+
+    .info-link {
+      color: var(--amber); text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.2s;
+    }
+    .info-link:hover { border-color: var(--amber); }
+
+    /* Hours table */
+    .hours-table {
+      width: 100%; border-collapse: collapse; margin-top: 0.5rem;
+    }
+    .hours-table td {
+      padding: 0.4rem 0; font-size: 0.88rem; color: var(--text-main);
+      border-bottom: 1px solid var(--cream-dark);
+    }
+    .hours-table td:last-child { text-align: right; color: var(--text-muted); }
+    .hours-table tr:last-child td { border-bottom: none; }
+
+    /* Social icons */
+    .social-row {
+      display: flex; gap: 1rem; margin-top: 0.5rem;
+    }
+    .social-btn {
+      width: 40px; height: 40px; border: 1px solid var(--cream-deeper);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--text-muted); text-decoration: none;
+      font-family: var(--font-display); font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      transition: all 0.25s;
+    }
+    .social-btn:hover {
+      background: var(--brown-deep); color: var(--amber);
+      border-color: var(--brown-deep);
+    }
+
+    /* FORM COLUMN */
+    .contact-form-wrap {
+      background: var(--cream-dark); padding: 3rem;
+    }
+
+    .form-title {
+      font-family: var(--font-display); font-size: 1.6rem; font-weight: 300;
+      color: var(--brown-deep); margin-bottom: 0.4rem;
+    }
+    .form-subtitle {
+      font-size: 0.9rem; color: var(--text-muted); margin-bottom: 2rem;
+    }
+
+    .contact-form { display: flex; flex-direction: column; gap: 1.2rem; }
+    .cf-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .cf-group { display: flex; flex-direction: column; gap: 0.4rem; }
+    .cf-label {
+      font-family: var(--font-display); font-size: 0.7rem;
+      letter-spacing: 0.2em; text-transform: uppercase; color: var(--amber);
+    }
+    .cf-input, .cf-select, .cf-textarea {
+      background: white; border: 1px solid var(--cream-deeper);
+      color: var(--text-main); padding: 0.8rem 1rem;
+      font-family: var(--font-body); font-size: 0.95rem;
+      outline: none; transition: border-color 0.2s;
+      width: 100%;
+    }
+    .cf-input:focus, .cf-select:focus, .cf-textarea:focus {
+      border-color: var(--amber);
+    }
+    .cf-input::placeholder, .cf-textarea::placeholder { color: rgba(44,31,16,0.35); }
+    .cf-textarea { resize: vertical; min-height: 130px; }
+    .cf-select option { background: white; }
+
+    /* Subject tabs */
+    .subject-tabs {
+      display: flex; gap: 0.4rem; flex-wrap: wrap;
+    }
+    .subject-tab {
+      padding: 0.4rem 1rem; border: 1px solid var(--cream-deeper);
+      background: white; font-family: var(--font-display); font-size: 0.78rem;
+      letter-spacing: 0.1em; cursor: pointer; color: var(--text-main);
+      transition: all 0.2s;
+    }
+    .subject-tab:hover { border-color: var(--brown-mid); }
+    .subject-tab.active {
+      background: var(--brown-deep); color: var(--cream);
+      border-color: var(--brown-deep);
+    }
+
+    .cf-submit {
+      display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+    }
+
+    .form-success {
+      display: none;
+      background: var(--brown-deep);
+      padding: 2.5rem;
+      text-align: center;
+    }
+    .form-success-jp {
+      font-family: 'Noto Serif JP', serif; font-size: 1.8rem;
+      color: var(--amber); margin-bottom: 0.5rem;
+    }
+    .form-success-en {
+      font-family: var(--font-display); font-size: 1.1rem;
+      font-style: italic; color: var(--cream);
+    }
+    .form-success-sub {
+      font-size: 0.88rem; color: var(--cream-dark); opacity: 0.7;
+      margin-top: 0.5rem;
+    }
+
+    /* FAQ */
+    .faq-section {
+      padding: 5rem var(--page-pad);
+      background: var(--cream-dark);
+    }
+    .faq-inner { max-width: var(--max-w); margin: 0 auto; }
+    .faq-inner h2 {
+      font-family: var(--font-display); font-size: clamp(1.8rem,3vw,2.6rem);
+      font-weight: 300; color: var(--brown-deep); margin-bottom: 3rem;
+    }
+    .faq-inner h2 em { font-style: italic; color: var(--amber); }
+
+    .faq-list { display: flex; flex-direction: column; gap: 0; }
+    .faq-item { border-top: 1px solid var(--cream-deeper); }
+    .faq-item:last-child { border-bottom: 1px solid var(--cream-deeper); }
+
+    .faq-question {
+      width: 100%; background: none; border: none;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.5rem 0; cursor: pointer; text-align: left;
+      font-family: var(--font-display); font-size: 1.05rem; font-weight: 500;
+      color: var(--brown-deep); transition: color 0.2s;
+    }
+    .faq-question:hover { color: var(--amber); }
+    .faq-icon { font-size: 1.2rem; transition: transform 0.3s; flex-shrink: 0; }
+    .faq-item.open .faq-icon { transform: rotate(45deg); }
+    .faq-answer {
+      max-height: 0; overflow: hidden;
+      transition: max-height 0.35s ease, padding 0.35s ease;
+      font-size: 0.93rem; color: var(--text-muted); line-height: 1.8;
+      padding: 0;
+    }
+    .faq-item.open .faq-answer {
+      max-height: 300px;
+      padding-bottom: 1.5rem;
+    }
+
+    @media (max-width: 900px) {
+      .contact-layout { grid-template-columns: 1fr; }
+      .cf-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="index.html" class="nav-logo">
+    <span class="nav-logo-en">Sakura Spirits</span>
+    <span class="nav-logo-jp">さくらスピリッツ</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="shop.html">Shop</a></li>
+    <li><a href="reviews.html">Reviews</a></li>
+    <li><a href="about.html">Our Story</a></li>
+    <li><a href="contact.html" class="active">Contact</a></li>
+  </ul>
+  <button class="nav-cart" onclick="window.location.href='shop.html'">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+    <span>Cart</span>
+    <span class="nav-cart-count" id="cartCount">0</span>
+  </button>
+</nav>
+
+<!-- HERO -->
+<div class="contact-hero">
+  <div class="contact-hero-inner">
+    <p class="contact-hero-kicker">お問い合わせ</p>
+    <h1>Get in <em>Touch</em></h1>
+    <p>Whether you have a question about a whisky, need help with an order, or simply want to talk about Japanese spirits — we're here.</p>
+  </div>
+  <svg class="torii-accent" style="right:3%;bottom:-10px;width:200px;height:280px;opacity:0.06" viewBox="0 0 300 600" fill="none">
+    <rect x="40" y="120" width="28" height="480" fill="#c8922a"/>
+    <rect x="232" y="120" width="28" height="480" fill="#c8922a"/>
+    <rect x="10" y="60" width="280" height="30" fill="#c8922a"/>
+    <path d="M10 60 Q0 40 10 30 L20 60Z" fill="#c8922a"/>
+    <path d="M290 60 Q300 40 290 30 L280 60Z" fill="#c8922a"/>
+    <rect x="30" y="105" width="240" height="18" fill="#c8922a"/>
+  </svg>
+</div>
+
+<!-- CONTACT LAYOUT -->
+<div class="contact-layout">
+
+  <!-- INFO -->
+  <div class="contact-info reveal">
+
+    <div class="info-block">
+      <p class="info-label">Email Us</p>
+      <p class="info-value"><a href="mailto:hello@sakura-spirits.com" class="info-link">hello@sakura-spirits.com</a></p>
+      <p class="info-sub">We reply to all enquiries within one working day.</p>
+    </div>
+
+    <div class="info-block">
+      <p class="info-label">Call Us</p>
+      <p class="info-value">+44 (0)20 7946 0312</p>
+      <p class="info-sub">Available Monday – Friday, 9am–6pm GMT.</p>
+    </div>
+
+    <div class="info-block">
+      <p class="info-label">Opening Hours</p>
+      <table class="hours-table">
+        <tr><td>Monday – Friday</td><td>9:00 – 18:00</td></tr>
+        <tr><td>Saturday</td><td>10:00 – 17:00</td></tr>
+        <tr><td>Sunday</td><td>Closed</td></tr>
+        <tr><td>UK Bank Holidays</td><td>Closed</td></tr>
+      </table>
+    </div>
+
+    <div class="info-block">
+      <p class="info-label">Visit Us</p>
+      <p class="info-value">12 Artisan Quarter<br />Bermondsey, London SE1 3QW</p>
+      <p class="info-sub">Our tasting room is open by appointment. Please <a href="mailto:hello@sakura-spirits.com" class="info-link">email us</a> to arrange a visit.</p>
+    </div>
+
+    <!-- <div class="info-block">
+      <p class="info-label">Follow Along</p>
+      <div class="social-row">
+        <a href="#" class="social-btn">IG</a>
+        <a href="#" class="social-btn">TW</a>
+        <a href="#" class="social-btn">FB</a>
+        <a href="#" class="social-btn">YT</a>
+      </div>
+    </div> -->
+
+  </div>
+
+  <!-- FORM -->
+  <div class="reveal" style="transition-delay:0.15s">
+    <div class="contact-form-wrap">
+      <h2 class="form-title">Send a Message</h2>
+      <p class="form-subtitle">Fill in the form and we'll get back to you promptly.</p>
+
+      <div id="formWrap">
+        <form class="contact-form" onsubmit="submitContact(event)">
+          <div class="cf-row">
+            <div class="cf-group">
+              <label class="cf-label">First Name</label>
+              <input class="cf-input" type="text" placeholder="Emma" required />
+            </div>
+            <div class="cf-group">
+              <label class="cf-label">Last Name</label>
+              <input class="cf-input" type="text" placeholder="Thornton" required />
+            </div>
+          </div>
+          <div class="cf-group">
+            <label class="cf-label">Email</label>
+            <input class="cf-input" type="email" placeholder="emma@example.com" required />
+          </div>
+          <div class="cf-group">
+            <label class="cf-label">Subject</label>
+            <div class="subject-tabs" id="subjectTabs">
+              <button type="button" class="subject-tab active" onclick="setSubject(this)">Order Enquiry</button>
+              <button type="button" class="subject-tab" onclick="setSubject(this)">Tasting Question</button>
+              <button type="button" class="subject-tab" onclick="setSubject(this)">Trade / Wholesale</button>
+              <button type="button" class="subject-tab" onclick="setSubject(this)">Other</button>
+            </div>
+          </div>
+          <div class="cf-group">
+            <label class="cf-label">Your Message</label>
+            <textarea class="cf-textarea" placeholder="Tell us how we can help…" required></textarea>
+          </div>
+          <div class="cf-submit">
+            <button type="submit" class="btn-primary"><span>Send Message</span></button>
+            <span style="font-size:0.8rem;color:var(--text-muted)">We typically reply within 24h.</span>
+          </div>
+        </form>
+      </div>
+
+      <div class="form-success" id="formSuccess">
+        <div class="form-success-jp">ありがとうございます</div>
+        <div class="form-success-en">Thank you for your message.</div>
+        <p class="form-success-sub">We'll be in touch within one working day.</p>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<!-- FAQ -->
+<div class="faq-section">
+  <div class="faq-inner reveal">
+    <h2>Frequently <em>Asked</em></h2>
+    <div class="faq-list">
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          Do you ship internationally? <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">Yes — we ship to most countries worldwide. Shipping costs and delivery times vary by destination. All orders include tracking. Please note that import duties may apply in your country, and are the responsibility of the customer.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          How do you verify customer age? <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">We use a third-party age verification service at checkout, and our delivery partners are instructed to request ID for all alcohol deliveries. You must be 18 or older to purchase from Sakura Spirits.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          Can I return a bottle? <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">Unopened bottles in original condition may be returned within 14 days for a full refund. We cannot accept returns on opened bottles. Please contact us first before returning any items.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          Do you offer corporate gifting? <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">Absolutely. We offer bespoke corporate gifting packages, including custom engraving, personalised notes, and presentation boxes. Please contact us via the Trade / Wholesale subject to discuss your requirements.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          How often do you get new stock? <span class="faq-icon">+</span>
+        </button>
+        <div class="faq-answer">We refresh our collection seasonally, with occasional limited releases. Subscribe to our newsletter to be first to hear about new arrivals, especially rare and limited expressions.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="footer-grid">
+    <div>
+      <div class="footer-brand-name">Sakura Spirits</div>
+      <div class="footer-brand-jp">さくらスピリッツ</div>
+      <p class="footer-brand-desc">Always here to help. Reach out anytime.</p>
+    </div>
+    <div><p class="footer-col-title">Navigate</p><ul class="footer-links"><li><a href="index.html">Home</a></li><li><a href="shop.html">Shop</a></li><li><a href="reviews.html">Reviews</a></li><li><a href="about.html">Our Story</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+    <div><p class="footer-col-title">Distilleries</p><ul class="footer-links"><li><a href="shop.html">Yamazaki</a></li><li><a href="shop.html">Hakushu</a></li><li><a href="shop.html">Yoichi</a></li><li><a href="shop.html">Miyagikyo</a></li></ul></div>
+    <div><p class="footer-col-title">Legal</p><ul class="footer-links"><li><a href="#">Privacy Policy</a></li><li><a href="#">Terms of Service</a></li><li><a href="#">Shipping Info</a></li></ul></div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Sakura Spirits. All rights reserved.</span>
+    <span>Must be 18+. Please drink responsibly.</span>
+  </div>
+</footer>
+
+<script>
+function updateCartCount() {
+  const cart = JSON.parse(localStorage.getItem('sakura_cart') || '[]');
+  document.getElementById('cartCount').textContent = cart.reduce((s,i)=>s+i.qty,0);
+}
+updateCartCount();
+
+function setSubject(btn) {
+  document.querySelectorAll('.subject-tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+function submitContact(e) {
+  e.preventDefault();
+  document.getElementById('formWrap').style.display = 'none';
+  document.getElementById('formSuccess').style.display = 'block';
+}
+
+function toggleFaq(btn) {
+  const item = btn.closest('.faq-item');
+  const wasOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+  if (!wasOpen) item.classList.add('open');
+}
+
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.08 });
+document.querySelectorAll('.reveal').forEach(r => observer.observe(r));
+</script>
+</body>
+</html>

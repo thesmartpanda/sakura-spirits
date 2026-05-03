@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reviews — Sakura Spirits</title>
+  <link rel="stylesheet" href="shared.css" />
+  <style>
+    .page-hero {
+      background: var(--brown-deep);
+      padding: calc(var(--nav-height) + 3.5rem) var(--page-pad) 3.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .page-hero-inner { max-width: var(--max-w); margin: 0 auto; }
+    .page-hero-kicker {
+      font-family: 'Noto Serif JP', serif;
+      font-size: 0.75rem; letter-spacing: 0.4em;
+      color: var(--amber); margin-bottom: 0.8rem;
+    }
+    .page-hero h1 {
+      font-family: var(--font-display);
+      font-size: clamp(2.8rem, 6vw, 5rem);
+      font-weight: 300; color: var(--cream); line-height: 1.05;
+    }
+    .page-hero h1 em { font-style: italic; color: var(--amber-light); }
+    .page-hero p {
+      color: var(--cream-dark); opacity: 0.75; max-width: 500px;
+      margin-top: 1rem; font-size: 1rem;
+    }
+
+    /* SCORE LEGEND */
+    .score-band {
+      background: var(--cream-dark);
+      padding: 1.5rem var(--page-pad);
+      border-bottom: 1px solid var(--cream-deeper);
+    }
+    .score-band-inner {
+      max-width: var(--max-w); margin: 0 auto;
+      display: flex; gap: 2.5rem; align-items: center; flex-wrap: wrap;
+    }
+    .score-legend-label {
+      font-family: var(--font-display); font-size: 0.72rem;
+      letter-spacing: 0.25em; text-transform: uppercase;
+      color: var(--text-muted); flex-shrink: 0;
+    }
+    .score-legend-item {
+      display: flex; align-items: center; gap: 0.5rem;
+    }
+    .score-dot {
+      width: 10px; height: 10px; border-radius: 50%;
+    }
+    .score-legend-item span {
+      font-family: var(--font-display); font-size: 0.82rem;
+      color: var(--text-main);
+    }
+
+    /* MAIN LAYOUT */
+    .reviews-layout {
+      max-width: var(--max-w); margin: 0 auto;
+      padding: 3.5rem var(--page-pad) 5rem;
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 3rem;
+      align-items: start;
+    }
+
+    /* SIDEBAR */
+    .sidebar { position: sticky; top: calc(var(--nav-height) + 1.5rem); }
+    .sidebar-section { margin-bottom: 2.5rem; }
+    .sidebar-title {
+      font-family: var(--font-display); font-size: 0.7rem;
+      letter-spacing: 0.3em; text-transform: uppercase;
+      color: var(--amber); margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--cream-deeper);
+    }
+    .sidebar-filter-list { list-style: none; display: flex; flex-direction: column; gap: 0.3rem; }
+    .sidebar-filter-item {
+      display: flex; align-items: center; gap: 0.7rem;
+      padding: 0.45rem 0.7rem;
+      cursor: pointer;
+      font-family: var(--font-display); font-size: 0.88rem;
+      color: var(--text-main);
+      transition: background 0.2s;
+    }
+    .sidebar-filter-item:hover { background: var(--cream-dark); }
+    .sidebar-filter-item.active {
+      background: var(--brown-deep); color: var(--cream);
+    }
+    .sidebar-count {
+      margin-left: auto;
+      font-size: 0.75rem; color: var(--text-muted);
+    }
+    .sidebar-filter-item.active .sidebar-count { color: var(--amber); }
+
+    /* STAR FILTER */
+    .star-filter-row {
+      display: flex; align-items: center; gap: 0.4rem;
+      padding: 0.4rem 0.7rem; cursor: pointer;
+      transition: background 0.2s; font-size: 0.9rem;
+    }
+    .star-filter-row:hover { background: var(--cream-dark); }
+    .star-filter-row.active { background: var(--brown-deep); }
+    .star-filter-row.active .sf-stars { color: var(--amber-light); }
+
+    /* REVIEWS LIST */
+    .reviews-list { display: flex; flex-direction: column; gap: 0; }
+
+    .review-card {
+      border-bottom: 1px solid var(--cream-deeper);
+      padding: 2.5rem 0;
+      animation: card-in 0.4s ease both;
+    }
+
+    @keyframes card-in {
+      from { opacity: 0; transform: translateY(12px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .review-card-header {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 1.5rem;
+      align-items: start;
+      margin-bottom: 1.5rem;
+    }
+
+    .review-score {
+      width: 64px; height: 64px;
+      border-radius: 50%;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .review-score-num {
+      font-family: var(--font-display); font-size: 1.5rem; font-weight: 600;
+      line-height: 1; color: white;
+    }
+    .review-score-label {
+      font-family: var(--font-display); font-size: 0.5rem;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      color: rgba(255,255,255,0.75); margin-top: 0.15rem;
+    }
+
+    .review-card-title-block {}
+    .review-card-distillery {
+      font-family: var(--font-display); font-size: 0.7rem;
+      letter-spacing: 0.3em; text-transform: uppercase;
+      color: var(--amber); margin-bottom: 0.25rem;
+    }
+    .review-card-name {
+      font-family: var(--font-display); font-size: 1.6rem;
+      font-weight: 400; color: var(--brown-deep); line-height: 1.15;
+    }
+    .review-card-meta {
+      font-size: 0.82rem; color: var(--text-muted);
+      margin-top: 0.25rem; display: flex; gap: 1rem; flex-wrap: wrap;
+    }
+    .meta-tag {
+      background: var(--cream-dark); padding: 0.15rem 0.6rem;
+      font-family: var(--font-display); font-size: 0.72rem;
+      letter-spacing: 0.1em;
+    }
+
+    .review-card-stars { display: flex; gap: 3px; }
+    .review-card-stars .star { font-size: 1rem; }
+    .review-card-stars .star.empty { color: var(--cream-deeper); }
+
+    .review-tasting-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .tasting-col-head {
+      font-family: var(--font-display); font-size: 0.68rem;
+      letter-spacing: 0.25em; text-transform: uppercase;
+      color: var(--amber); margin-bottom: 0.4rem;
+    }
+    .tasting-col-text {
+      font-size: 0.9rem; color: var(--text-main); line-height: 1.7;
+    }
+
+    .review-verdict {
+      background: var(--cream-dark); padding: 1.2rem 1.4rem;
+      border-left: 3px solid var(--amber);
+      font-style: italic; font-size: 0.95rem;
+      color: var(--text-main); line-height: 1.7; margin-bottom: 1.5rem;
+    }
+
+    .review-footer {
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 1rem;
+    }
+    .review-author {
+      display: flex; align-items: center; gap: 0.75rem;
+    }
+    .review-avatar {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: var(--brown-mid);
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-display); font-size: 0.85rem; font-weight: 600;
+      color: var(--amber);
+    }
+    .review-author-name {
+      font-family: var(--font-display); font-size: 0.88rem; color: var(--text-main);
+    }
+    .review-author-date { font-size: 0.78rem; color: var(--text-muted); }
+
+    .review-shop-link {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      font-family: var(--font-display); font-size: 0.78rem;
+      letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--amber); text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: border-color 0.2s;
+    }
+    .review-shop-link:hover { border-color: var(--amber); }
+
+    /* Expand/collapse tasting */
+    .review-expand-btn {
+      background: none; border: none; font-family: var(--font-display);
+      font-size: 0.78rem; letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--text-muted); cursor: pointer; padding: 0;
+      display: flex; align-items: center; gap: 0.4rem;
+      transition: color 0.2s; margin-bottom: 1rem;
+    }
+    .review-expand-btn:hover { color: var(--amber); }
+    .expand-icon { transition: transform 0.3s; display: inline-block; }
+    .review-expand-btn.open .expand-icon { transform: rotate(180deg); }
+
+    .review-detail { overflow: hidden; transition: max-height 0.4s ease; max-height: 0; }
+    .review-detail.open { max-height: 600px; }
+
+    /* WRITE REVIEW */
+    .write-review-band {
+      background: var(--brown-deep); padding: 4rem var(--page-pad);
+    }
+    .write-review-inner {
+      max-width: var(--max-w); margin: 0 auto;
+      display: grid; grid-template-columns: 1fr 1.5fr; gap: 4rem; align-items: center;
+    }
+    .write-review-left h2 {
+      font-family: var(--font-display); font-size: clamp(1.8rem, 3vw, 2.8rem);
+      font-weight: 300; color: var(--cream); margin-bottom: 1rem;
+    }
+    .write-review-left h2 em { font-style: italic; color: var(--amber-light); }
+    .write-review-left p { color: var(--cream-dark); opacity: 0.75; font-size: 0.95rem; }
+
+    .review-form { display: flex; flex-direction: column; gap: 1rem; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+    .form-group { display: flex; flex-direction: column; gap: 0.4rem; }
+    .form-label {
+      font-family: var(--font-display); font-size: 0.72rem;
+      letter-spacing: 0.2em; text-transform: uppercase; color: var(--amber);
+    }
+    .form-input, .form-select, .form-textarea {
+      background: rgba(255,255,255,0.08); border: 1px solid rgba(200,146,42,0.25);
+      color: var(--cream); padding: 0.75rem 1rem;
+      font-family: var(--font-body); font-size: 0.95rem;
+      outline: none; transition: border-color 0.2s;
+    }
+    .form-input:focus, .form-select:focus, .form-textarea:focus {
+      border-color: var(--amber);
+    }
+    .form-input::placeholder, .form-textarea::placeholder { color: rgba(245,234,208,0.35); }
+    .form-select option { background: var(--brown-deep); }
+    .form-textarea { resize: vertical; min-height: 90px; }
+
+    .star-picker { display: flex; gap: 0.3rem; }
+    .star-pick {
+      font-size: 1.4rem; cursor: pointer; color: var(--cream-deeper);
+      transition: color 0.15s, transform 0.15s;
+    }
+    .star-pick:hover, .star-pick.lit { color: var(--amber); transform: scale(1.15); }
+
+    @media (max-width: 900px) {
+      .reviews-layout { grid-template-columns: 1fr; }
+      .sidebar { position: static; }
+      .review-tasting-grid { grid-template-columns: 1fr; }
+      .write-review-inner { grid-template-columns: 1fr; }
+      .form-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="index.html" class="nav-logo">
+    <span class="nav-logo-en">Sakura Spirits</span>
+    <span class="nav-logo-jp">さくらスピリッツ</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="shop.html">Shop</a></li>
+    <li><a href="reviews.html" class="active">Reviews</a></li>
+    <li><a href="about.html">Our Story</a></li>
+    <li><a href="contact.html">Contact</a></li>
+  </ul>
+  <button class="nav-cart" onclick="window.location.href='shop.html'">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+    <span>Cart</span>
+    <span class="nav-cart-count" id="cartCount">0</span>
+  </button>
+</nav>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <div class="page-hero-inner">
+    <p class="page-hero-kicker">テイスティングノート</p>
+    <h1>Tasting <em>Reviews</em></h1>
+    <p>Honest, considered notes from our team of dedicated tasters — every score earned through careful, repeated assessment.</p>
+  </div>
+  <svg class="torii-accent" style="right:3%;bottom:-10px;width:180px;height:260px;opacity:0.07" viewBox="0 0 300 600" fill="none">
+    <rect x="40" y="120" width="28" height="480" fill="#c8922a"/>
+    <rect x="232" y="120" width="28" height="480" fill="#c8922a"/>
+    <rect x="10" y="60" width="280" height="30" fill="#c8922a"/>
+    <path d="M10 60 Q0 40 10 30 L20 60Z" fill="#c8922a"/>
+    <path d="M290 60 Q300 40 290 30 L280 60Z" fill="#c8922a"/>
+    <rect x="30" y="105" width="240" height="18" fill="#c8922a"/>
+  </svg>
+</div>
+
+<!-- SCORE BAND -->
+<div class="score-band">
+  <div class="score-band-inner">
+    <span class="score-legend-label">Our Scale:</span>
+    <div class="score-legend-item">
+      <div class="score-dot" style="background:#c8922a"></div>
+      <span>95–100 Legendary</span>
+    </div>
+    <div class="score-legend-item">
+      <div class="score-dot" style="background:#e0b86a"></div>
+      <span>90–94 Outstanding</span>
+    </div>
+    <div class="score-legend-item">
+      <div class="score-dot" style="background:#6b8cba"></div>
+      <span>85–89 Highly Recommended</span>
+    </div>
+    <div class="score-legend-item">
+      <div class="score-dot" style="background:#8aaa78"></div>
+      <span>80–84 Recommended</span>
+    </div>
+  </div>
+</div>
+
+<!-- MAIN LAYOUT -->
+<div class="reviews-layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <p class="sidebar-title">Distillery</p>
+      <ul class="sidebar-filter-list" id="distilleryFilters">
+        <li class="sidebar-filter-item active" data-filter="all" onclick="filterReviews('all', 'distillery')">All <span class="sidebar-count">7</span></li>
+        <li class="sidebar-filter-item" data-filter="Yamazaki" onclick="filterReviews('Yamazaki','distillery')">Yamazaki <span class="sidebar-count">2</span></li>
+        <li class="sidebar-filter-item" data-filter="Hakushu" onclick="filterReviews('Hakushu','distillery')">Hakushu <span class="sidebar-count">1</span></li>
+        <li class="sidebar-filter-item" data-filter="Yoichi" onclick="filterReviews('Yoichi','distillery')">Yoichi <span class="sidebar-count">1</span></li>
+        <li class="sidebar-filter-item" data-filter="Nikka" onclick="filterReviews('Nikka','distillery')">Nikka <span class="sidebar-count">2</span></li>
+        <li class="sidebar-filter-item" data-filter="Hibiki" onclick="filterReviews('Hibiki','distillery')">Hibiki <span class="sidebar-count">1</span></li>
+      </ul>
+    </div>
+    <div class="sidebar-section">
+      <p class="sidebar-title">Minimum Score</p>
+      <div id="scoreFilters">
+        <div class="star-filter-row active" data-min="0" onclick="filterByScore(0, this)">
+          <span class="sf-stars">★★★★★</span> <span style="font-family:var(--font-display);font-size:0.82rem;margin-left:4px;">All</span>
+        </div>
+        <div class="star-filter-row" data-min="90" onclick="filterByScore(90, this)">
+          <span class="sf-stars" style="color:var(--amber)">★★★★★</span> <span style="font-family:var(--font-display);font-size:0.82rem;margin-left:4px;">90+</span>
+        </div>
+        <div class="star-filter-row" data-min="85" onclick="filterByScore(85, this)">
+          <span class="sf-stars" style="color:var(--amber)">★★★★</span><span class="sf-stars">★</span> <span style="font-family:var(--font-display);font-size:0.82rem;margin-left:4px;">85+</span>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- REVIEWS -->
+  <div class="reviews-list" id="reviewsList"></div>
+</div>
+
+<!-- WRITE A REVIEW -->
+<div class="write-review-band">
+  <div class="write-review-inner">
+    <div class="write-review-left">
+      <h2>Share Your <em>Impressions</em></h2>
+      <p>Have you tasted one of our expressions? We'd love to hear your thoughts. Every review helps our community discover their next favourite dram.</p>
+    </div>
+    <form class="review-form" onsubmit="submitReview(event)">
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Your Name</label>
+          <input class="form-input" type="text" placeholder="Tanaka Hiroshi" required />
+        </div>
+        <div class="form-group">
+          <label class="form-label">Whisky</label>
+          <select class="form-select">
+            <option>Yamazaki 12 Year</option>
+            <option>Hakushu 18 Year</option>
+            <option>Yoichi Single Malt</option>
+            <option>Nikka From The Barrel</option>
+            <option>Hibiki Japanese Harmony</option>
+            <option>Yamazaki 18 Year</option>
+            <option>Nikka Coffey Grain</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Your Rating</label>
+        <div class="star-picker" id="starPicker">
+          <span class="star-pick" data-val="1">★</span>
+          <span class="star-pick" data-val="2">★</span>
+          <span class="star-pick" data-val="3">★</span>
+          <span class="star-pick" data-val="4">★</span>
+          <span class="star-pick" data-val="5">★</span>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Tasting Notes</label>
+        <textarea class="form-textarea" placeholder="Describe what you smell, taste, and feel…" required></textarea>
+      </div>
+      <button type="submit" class="btn-primary" style="align-self:flex-start"><span>Submit Review</span></button>
+      <p id="reviewSuccess" style="display:none;color:var(--amber);font-family:var(--font-display);font-style:italic;font-size:0.9rem;">Arigatou — your review has been received.</p>
+    </form>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="footer-grid">
+    <div>
+      <div class="footer-brand-name">Sakura Spirits</div>
+      <div class="footer-brand-jp">さくらスピリッツ</div>
+      <p class="footer-brand-desc">Honest tasting notes from passionate people.</p>
+    </div>
+    <div><p class="footer-col-title">Navigate</p><ul class="footer-links"><li><a href="index.html">Home</a></li><li><a href="shop.html">Shop</a></li><li><a href="reviews.html">Reviews</a></li><li><a href="about.html">Our Story</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+    <div><p class="footer-col-title">Distilleries</p><ul class="footer-links"><li><a href="shop.html">Yamazaki</a></li><li><a href="shop.html">Hakushu</a></li><li><a href="shop.html">Yoichi</a></li><li><a href="shop.html">Miyagikyo</a></li></ul></div>
+    <div><p class="footer-col-title">Legal</p><ul class="footer-links"><li><a href="#">Privacy Policy</a></li><li><a href="#">Terms of Service</a></li></ul></div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Sakura Spirits. All rights reserved.</span>
+    <span>Must be 18+. Please drink responsibly.</span>
+  </div>
+</footer>
+
+<script>
+const REVIEWS = [
+  {
+    id:1, distillery:'Nikka', name:'Yoichi Single Malt', age:'12 Years', abv:'45%',
+    score:82, stars:4, badge:'Recommanded',
+    nose:'Honeysuckle, ripe peach, and coconut from American oak with Mizunara whispers.',
+    palate:'Silky, layered — pineapple, clove spice, rich toffee. Beautifully crafted.',
+    finish:'Long, fading to dark chocolate and cedar. A moment of genuine peace.',
+    verdict:'The entry point to Japanese whisky — and what an entry it is. Simultaneously approachable and complex, never asking too much of the drinker, yet always rewarding attention.',
+    author:'Kenji Watanabe', initials:'KW', date:'March 2026', scoreColor:'#c8922a',
+    shopId: 1
+  },
+  /*{
+    id:2, distillery:'Hakushu', name:'Hakushu 18 Year Single Malt', age:'18 Years', abv:'43%',
+    score:97, stars:5, badge:'Legendary',
+    nose:'Pine forest floor, fresh mint, white peach, grapefruit, and distant peat smoke.',
+    palate:'Clean, vivid, and minerally. Minty freshness segues into herbaceous vanilla and light smoke.',
+    finish:'Medium-long. Green tea, citrus peel, cool white smoke. Hauntingly beautiful.',
+    verdict:'One of the rarest and most distinctive whiskies in our collection. The 18 Year Hakushu is a masterpiece of contrasts — simultaneously cooling and warming, light and complex. Each sip reveals a new layer. This is a whisky that demands patience, and rewards it extravagantly.',
+    author:'Yuki Nakamura', initials:'YN', date:'February 2026', scoreColor:'#c8922a',
+    shopId: 2
+  },
+  {
+    id:3, distillery:'Yoichi', name:'Yoichi Single Malt NAS', age:'NAS', abv:'45%',
+    score:88, stars:4, badge:'Highly Recommended',
+    nose:'Maritime brine, wood smoke, dried apricot, and a pleasingly oily coastal quality.',
+    palate:'Full-bodied, direct. Peat smoke, black pepper, espresso. Bold and assertive.',
+    finish:'Long and smoky with lingering pepper and dark fruit.',
+    verdict:'A proudly rugged whisky that wears its Hokkaido origins on its sleeve. For drinkers who love Islay Scotch, Yoichi is a revelation — familiar enough to feel comfortable, yet distinctly Japanese in its precision and restraint.',
+    author:'Brendan Firth', initials:'BF', date:'January 2026', scoreColor:'#6b8cba',
+    shopId: 3
+  },
+  {
+    id:4, distillery:'Nikka', name:'Nikka From The Barrel', age:'Blended', abv:'51.4%',
+    score:91, stars:5, badge:'Outstanding',
+    nose:'Punchy dried cherry, dark chocolate, malt, and warm cask spice. Dense and inviting.',
+    palate:'Dense and oily at cask strength. Vanilla, toasted oak, dried fruit, black pepper.',
+    finish:'Long. Caramel, oak, dark fruit. Smooth for the ABV.',
+    verdict:'Arguably the greatest value in Japanese whisky — or perhaps in any whisky category. Bottled at cask strength from a marriage of coffey grain and malt, From The Barrel delivers complexity and richness that whiskies at twice the price routinely fail to match.',
+    author:'Sophie Laurent', initials:'SL', date:'April 2026', scoreColor:'#e0b86a',
+    shopId: 4
+  },
+  {
+    id:5, distillery:'Hibiki', name:'Hibiki Japanese Harmony', age:'Blended', abv:'43%',
+    score:89, stars:4, badge:'Highly Recommended',
+    nose:'Honeyed orange peel, white flowers, vanilla, rose water, sandalwood.',
+    palate:'Harmonious and gentle. Candied citrus, honey, soft oak — seamlessly integrated.',
+    finish:'Medium and warm. Honey and wood fade slowly. A sweet, lingering goodbye.',
+    verdict:'Hibiki Harmony earns its name completely. As a blended whisky, it sacrifices nothing in terms of sophistication — this is a drink of remarkable harmony between distilleries, casks, and styles. The ideal gift for someone discovering Japanese whisky.',
+    author:'Kenji Watanabe', initials:'KW', date:'March 2026', scoreColor:'#6b8cba',
+    shopId: 5
+  },
+  {
+    id:6, distillery:'Yamazaki', name:'Yamazaki 18 Year Single Malt', age:'18 Years', abv:'43%',
+    score:99, stars:5, badge:'Legendary',
+    nose:'Ripe plum, black fig, candied orange peel, Mizunara incense. Something close to perfection.',
+    palate:'Velvety, profound. Dark fruit, rich toffee, mocha, subtle sandalwood. Endlessly revealing.',
+    finish:'Extraordinarily long. Dried fruit, dark chocolate, aged Mizunara cedar — minutes later.',
+    verdict:'The Yamazaki 18 Year is a contender for the finest whisky in the world — Japanese or otherwise. Aged in a combination of French, Spanish, and rare Mizunara Japanese oak casks, this is a whisky of profound depth. Every time you return to the glass, you find something new.',
+    author:'Yuki Nakamura', initials:'YN', date:'January 2026', scoreColor:'#c8922a',
+    shopId: 6
+  },
+  {
+    id:7, distillery:'Nikka', name:'Nikka Coffey Grain', age:'NAS', abv:'45%',
+    score:86, stars:4, badge:'Recommended',
+    nose:'Vanilla cream soda, tropical fruit, butterscotch, toasted coconut.',
+    palate:'Sweet and indulgent. Banana, tropical trifle, rich vanilla custard.',
+    finish:'Medium with tropical sweetness and warming spice.',
+    verdict:'An unusual and joyful whisky. Distilled in a traditional Coffey still, this grain whisky is far more expressive and sweet than its European counterparts. It breaks all the "rules" of grain whisky — and is all the better for it. An essential addition to any collection.',
+    author:'Brendan Firth', initials:'BF', date:'February 2026', scoreColor:'#8aaa78',
+    shopId: 7
+  }*/
+];
+
+let activeDistillery = 'all';
+let activeMinScore = 0;
+
+function getScoreColor(s) {
+  if (s >= 95) return '#c8922a';
+  if (s >= 90) return '#e0b86a';
+  if (s >= 85) return '#6b8cba';
+  return '#8aaa78';
+}
+
+function renderStars(n) {
+  return [1,2,3,4,5].map(i => `<span class="star${i<=n?'':' empty'}">★</span>`).join('');
+}
+
+function renderReviews() {
+  let items = [...REVIEWS];
+  if (activeDistillery !== 'all') items = items.filter(r => r.distillery === activeDistillery);
+  if (activeMinScore > 0) items = items.filter(r => r.score >= activeMinScore);
+
+  const list = document.getElementById('reviewsList');
+  if (!items.length) {
+    list.innerHTML = '<p style="color:var(--text-muted);font-family:var(--font-display);padding:2rem 0">No reviews match this filter.</p>';
+    return;
+  }
+
+  list.innerHTML = items.map((r,i) => `
+    <article class="review-card" style="animation-delay:${i*0.07}s">
+      <div class="review-card-header">
+        <div class="review-score" style="background:${getScoreColor(r.score)}">
+          <span class="review-score-num">${r.score}</span>
+          <span class="review-score-label">/100</span>
+        </div>
+        <div class="review-card-title-block">
+          <p class="review-card-distillery">${r.distillery} Distillery</p>
+          <h2 class="review-card-name">${r.name}</h2>
+          <div class="review-card-meta">
+            <span class="meta-tag">${r.age}</span>
+            <span class="meta-tag">${r.abv} ABV</span>
+            <span class="meta-tag">${r.badge}</span>
+          </div>
+        </div>
+        <div class="review-card-stars">${renderStars(r.stars)}</div>
+      </div>
+
+      <blockquote class="review-verdict">"${r.verdict}"</blockquote>
+
+      <button class="review-expand-btn" id="expandBtn${r.id}" onclick="toggleDetail(${r.id})">
+        <span class="expand-icon">▾</span> Full Tasting Notes
+      </button>
+      <div class="review-detail" id="detail${r.id}">
+        <div class="review-tasting-grid">
+          <div><p class="tasting-col-head">Nose</p><p class="tasting-col-text">${r.nose}</p></div>
+          <div><p class="tasting-col-head">Palate</p><p class="tasting-col-text">${r.palate}</p></div>
+          <div><p class="tasting-col-head">Finish</p><p class="tasting-col-text">${r.finish}</p></div>
+        </div>
+      </div>
+
+      <div class="review-footer">
+        <div class="review-author">
+          <div class="review-avatar">${r.initials}</div>
+          <div>
+            <div class="review-author-name">${r.author}</div>
+            <div class="review-author-date">${r.date}</div>
+          </div>
+        </div>
+        <!-- <a href="shop.html" class="review-shop-link">Buy this whisky →</a> -->
+      </div>
+    </article>
+  `).join('');
+}
+
+function toggleDetail(id) {
+  const detail = document.getElementById('detail' + id);
+  const btn = document.getElementById('expandBtn' + id);
+  detail.classList.toggle('open');
+  btn.classList.toggle('open');
+}
+
+function filterReviews(val, type) {
+  activeDistillery = val;
+  document.querySelectorAll('#distilleryFilters .sidebar-filter-item').forEach(el => {
+    el.classList.toggle('active', el.dataset.filter === val);
+  });
+  renderReviews();
+}
+
+function filterByScore(min, el) {
+  activeMinScore = min;
+  document.querySelectorAll('#scoreFilters .star-filter-row').forEach(r => r.classList.remove('active'));
+  el.classList.add('active');
+  renderReviews();
+}
+
+function submitReview(e) {
+  e.preventDefault();
+  document.getElementById('reviewSuccess').style.display = 'block';
+  e.target.reset();
+  document.querySelectorAll('.star-pick').forEach(s => s.classList.remove('lit'));
+}
+
+// Star picker
+let pickedStars = 0;
+document.querySelectorAll('.star-pick').forEach(star => {
+  star.addEventListener('mouseover', () => {
+    const val = parseInt(star.dataset.val);
+    document.querySelectorAll('.star-pick').forEach(s => {
+      s.classList.toggle('lit', parseInt(s.dataset.val) <= val);
+    });
+  });
+  star.addEventListener('click', () => {
+    pickedStars = parseInt(star.dataset.val);
+  });
+});
+document.getElementById('starPicker').addEventListener('mouseleave', () => {
+  document.querySelectorAll('.star-pick').forEach(s => {
+    s.classList.toggle('lit', parseInt(s.dataset.val) <= pickedStars);
+  });
+});
+
+// Cart
+function updateCartCount() {
+  const cart = JSON.parse(localStorage.getItem('sakura_cart') || '[]');
+  document.getElementById('cartCount').textContent = cart.reduce((s,i)=>s+i.qty,0);
+}
+updateCartCount();
+
+renderReviews();
+</script>
+</body>
+</html>
