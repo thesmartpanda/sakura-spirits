@@ -30,9 +30,21 @@ function bottleSVG(kanji) {
   </svg>`;
 }
 
+function updateCartCount() {
+  const cart = JSON.parse(localStorage.getItem('sakura_cart') || '[]');
+  document.getElementById('cartCount').textContent = cart.reduce((s, i) => s + i.qty, 0);
+}
+
 function starRating(rating) {
   const full = Math.round(rating);
   return [1,2,3,4,5].map(i =>
     `<span class="star" style="${i > full ? 'color:var(--cream-deeper)' : ''}">&#9733;</span>`
   ).join('') + `<span style="font-size:0.78rem;color:var(--text-muted);margin-left:6px;">${rating}</span>`;
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(r => observer.observe(r));
+});

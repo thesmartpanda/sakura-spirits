@@ -384,10 +384,6 @@
 
 <script src="directus.js"></script>
 <script>
-function updateCartCount() {
-  const cart = JSON.parse(localStorage.getItem('sakura_cart') || '[]');
-  document.getElementById('cartCount').textContent = cart.reduce((s,i)=>s+i.qty,0);
-}
 updateCartCount();
 
 function setSubject(btn) {
@@ -431,10 +427,6 @@ async function loadFAQs() {
 }
 loadFAQs();
 
-const observer = new IntersectionObserver(entries => {
-  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-}, { threshold: 0.08 });
-document.querySelectorAll('.reveal').forEach(r => observer.observe(r));
 </script>
 </body>
 </html>

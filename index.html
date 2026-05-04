@@ -676,11 +676,6 @@
 <script src="directus.js"></script>
 <script>
   // Cart count from localStorage
-  function updateCartCount() {
-    const cart = JSON.parse(localStorage.getItem('sakura_cart') || '[]');
-    const total = cart.reduce((s, i) => s + i.qty, 0);
-    document.getElementById('cartCount').textContent = total;
-  }
   updateCartCount();
   window.addEventListener('storage', updateCartCount);
 
@@ -749,12 +744,6 @@
   }
   setInterval(createBlossom, 1200);
 
-  // Scroll reveal
-  const reveals = document.querySelectorAll('.reveal');
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-  }, { threshold: 0.1 });
-  reveals.forEach(r => observer.observe(r));
 
   async function handleNewsletter(e) {
     e.preventDefault();
