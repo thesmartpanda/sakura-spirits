@@ -445,7 +445,7 @@ const BG_GRADIENTS = [
 ];
 
 async function loadTeam() {
-  const members = await directusFetch('/items/team_members?sort[]=sort');
+  const members = await directusFetch('/items/team_members?filter[status][_eq]=published&sort[]=sort');
   document.getElementById('teamGrid').innerHTML = members.map((m, i) => `
     <div class="team-card">
       <div class="team-card-img">
