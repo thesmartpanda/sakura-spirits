@@ -495,7 +495,7 @@ function renderReviews() {
           <div class="review-card-meta">
             <span class="meta-tag">${r.age}</span>
             <span class="meta-tag">${r.abv} ABV</span>
-            <span class="meta-tag">${r.badge}</span>
+            ${r.badge ? `<span class="meta-tag">${r.badge}</span>` : ''}
           </div>
         </div>
         <div class="review-card-stars">${renderStars(r.stars)}</div>
