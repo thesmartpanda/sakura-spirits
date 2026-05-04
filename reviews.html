@@ -444,79 +444,9 @@
   </div>
 </footer>
 
+<script src="directus.js"></script>
 <script>
-const REVIEWS = [
-  {
-    id:1, distillery:'Nikka', name:'Yoichi Single Malt', age:'12 Years', abv:'45%',
-    score:82, stars:4, badge:'Recommanded',
-    nose:'Honeysuckle, ripe peach, and coconut from American oak with Mizunara whispers.',
-    palate:'Silky, layered — pineapple, clove spice, rich toffee. Beautifully crafted.',
-    finish:'Long, fading to dark chocolate and cedar. A moment of genuine peace.',
-    verdict:'The entry point to Japanese whisky — and what an entry it is. Simultaneously approachable and complex, never asking too much of the drinker, yet always rewarding attention.',
-    author:'Kenji Watanabe', initials:'KW', date:'March 2026', scoreColor:'#c8922a',
-    shopId: 1
-  },
-  /*{
-    id:2, distillery:'Hakushu', name:'Hakushu 18 Year Single Malt', age:'18 Years', abv:'43%',
-    score:97, stars:5, badge:'Legendary',
-    nose:'Pine forest floor, fresh mint, white peach, grapefruit, and distant peat smoke.',
-    palate:'Clean, vivid, and minerally. Minty freshness segues into herbaceous vanilla and light smoke.',
-    finish:'Medium-long. Green tea, citrus peel, cool white smoke. Hauntingly beautiful.',
-    verdict:'One of the rarest and most distinctive whiskies in our collection. The 18 Year Hakushu is a masterpiece of contrasts — simultaneously cooling and warming, light and complex. Each sip reveals a new layer. This is a whisky that demands patience, and rewards it extravagantly.',
-    author:'Yuki Nakamura', initials:'YN', date:'February 2026', scoreColor:'#c8922a',
-    shopId: 2
-  },
-  {
-    id:3, distillery:'Yoichi', name:'Yoichi Single Malt NAS', age:'NAS', abv:'45%',
-    score:88, stars:4, badge:'Highly Recommended',
-    nose:'Maritime brine, wood smoke, dried apricot, and a pleasingly oily coastal quality.',
-    palate:'Full-bodied, direct. Peat smoke, black pepper, espresso. Bold and assertive.',
-    finish:'Long and smoky with lingering pepper and dark fruit.',
-    verdict:'A proudly rugged whisky that wears its Hokkaido origins on its sleeve. For drinkers who love Islay Scotch, Yoichi is a revelation — familiar enough to feel comfortable, yet distinctly Japanese in its precision and restraint.',
-    author:'Brendan Firth', initials:'BF', date:'January 2026', scoreColor:'#6b8cba',
-    shopId: 3
-  },
-  {
-    id:4, distillery:'Nikka', name:'Nikka From The Barrel', age:'Blended', abv:'51.4%',
-    score:91, stars:5, badge:'Outstanding',
-    nose:'Punchy dried cherry, dark chocolate, malt, and warm cask spice. Dense and inviting.',
-    palate:'Dense and oily at cask strength. Vanilla, toasted oak, dried fruit, black pepper.',
-    finish:'Long. Caramel, oak, dark fruit. Smooth for the ABV.',
-    verdict:'Arguably the greatest value in Japanese whisky — or perhaps in any whisky category. Bottled at cask strength from a marriage of coffey grain and malt, From The Barrel delivers complexity and richness that whiskies at twice the price routinely fail to match.',
-    author:'Sophie Laurent', initials:'SL', date:'April 2026', scoreColor:'#e0b86a',
-    shopId: 4
-  },
-  {
-    id:5, distillery:'Hibiki', name:'Hibiki Japanese Harmony', age:'Blended', abv:'43%',
-    score:89, stars:4, badge:'Highly Recommended',
-    nose:'Honeyed orange peel, white flowers, vanilla, rose water, sandalwood.',
-    palate:'Harmonious and gentle. Candied citrus, honey, soft oak — seamlessly integrated.',
-    finish:'Medium and warm. Honey and wood fade slowly. A sweet, lingering goodbye.',
-    verdict:'Hibiki Harmony earns its name completely. As a blended whisky, it sacrifices nothing in terms of sophistication — this is a drink of remarkable harmony between distilleries, casks, and styles. The ideal gift for someone discovering Japanese whisky.',
-    author:'Kenji Watanabe', initials:'KW', date:'March 2026', scoreColor:'#6b8cba',
-    shopId: 5
-  },
-  {
-    id:6, distillery:'Yamazaki', name:'Yamazaki 18 Year Single Malt', age:'18 Years', abv:'43%',
-    score:99, stars:5, badge:'Legendary',
-    nose:'Ripe plum, black fig, candied orange peel, Mizunara incense. Something close to perfection.',
-    palate:'Velvety, profound. Dark fruit, rich toffee, mocha, subtle sandalwood. Endlessly revealing.',
-    finish:'Extraordinarily long. Dried fruit, dark chocolate, aged Mizunara cedar — minutes later.',
-    verdict:'The Yamazaki 18 Year is a contender for the finest whisky in the world — Japanese or otherwise. Aged in a combination of French, Spanish, and rare Mizunara Japanese oak casks, this is a whisky of profound depth. Every time you return to the glass, you find something new.',
-    author:'Yuki Nakamura', initials:'YN', date:'January 2026', scoreColor:'#c8922a',
-    shopId: 6
-  },
-  {
-    id:7, distillery:'Nikka', name:'Nikka Coffey Grain', age:'NAS', abv:'45%',
-    score:86, stars:4, badge:'Recommended',
-    nose:'Vanilla cream soda, tropical fruit, butterscotch, toasted coconut.',
-    palate:'Sweet and indulgent. Banana, tropical trifle, rich vanilla custard.',
-    finish:'Medium with tropical sweetness and warming spice.',
-    verdict:'An unusual and joyful whisky. Distilled in a traditional Coffey still, this grain whisky is far more expressive and sweet than its European counterparts. It breaks all the "rules" of grain whisky — and is all the better for it. An essential addition to any collection.',
-    author:'Brendan Firth', initials:'BF', date:'February 2026', scoreColor:'#8aaa78',
-    shopId: 7
-  }*/
-];
+let REVIEWS = [];
 
 let activeDistillery = 'all';
 let activeMinScore = 0;
@@ -637,14 +567,54 @@ document.getElementById('starPicker').addEventListener('mouseleave', () => {
   });
 });
 
-// Cart
 function updateCartCount() {
   const cart = JSON.parse(localStorage.getItem('sakura_cart') || '[]');
   document.getElementById('cartCount').textContent = cart.reduce((s,i)=>s+i.qty,0);
 }
 updateCartCount();
 
-renderReviews();
+function mapReview(r) {
+  const w = r.whisky_id || {};
+  const d = r.review_date ? new Date(r.review_date).toLocaleDateString('en-GB', { month: 'long', year: 'numeric' }) : '';
+  return {
+    id: r.id,
+    distillery: w.distillery || '',
+    name: w.name || '',
+    age: w.age_statement || '',
+    abv: w.abv || '',
+    score: r.score,
+    stars: r.stars,
+    badge: r.badge,
+    nose: r.nose,
+    palate: r.palate,
+    finish: r.finish,
+    verdict: r.verdict,
+    author: r.author_name,
+    initials: r.author_initials,
+    date: d,
+    scoreColor: getScoreColor(r.score),
+    shopId: w.id
+  };
+}
+
+async function loadReviews() {
+  const items = await directusFetch(
+    '/items/reviews?filter[status][_eq]=published&sort[]=-score&fields[]=*,whisky_id.*'
+  );
+  REVIEWS = items.map(mapReview);
+
+  // Update sidebar counts
+  const total = REVIEWS.length;
+  document.querySelector('#distilleryFilters [data-filter="all"] .sidebar-count').textContent = total;
+  ['Yamazaki','Hakushu','Yoichi','Nikka','Hibiki'].forEach(name => {
+    const el = document.querySelector(`#distilleryFilters [data-filter="${name}"] .sidebar-count`);
+    if (el) el.textContent = REVIEWS.filter(r => r.distillery.includes(name)).length;
+  });
+
+  renderReviews();
+}
+
+loadReviews();
 </script>
 </body>
 </html>

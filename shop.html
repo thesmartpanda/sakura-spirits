@@ -570,93 +570,32 @@
   </div>
 </footer>
 
+<script src="directus.js"></script>
 <script>
-const WHISKIES = [
-  {
-    id: 1, filter: 'yamazaki',
-    region: 'Yamazaki Distillery', name: 'Yamazaki 12 Year', sub: 'Single Malt · 43% ABV · 70cl',
-    age: '12 Years', abv: '43%', price: '¥18,500', priceSub: '£115 · Free UK delivery',
-    priceNum: 115, rating: 4.9, badge: 'Best Seller',
-    nose: 'Delicate peach and apricot with honeysuckle and vanilla. A whisper of coconut from Mizunara oak, with faint dried rose petals.',
-    palate: 'Silky entry of ripe pear and pineapple. Clove spice builds gently alongside rich toffee and toasted oak. Beautifully layered.',
-    finish: 'Long and warming, fading to dark chocolate and cedar with a subtle floral sweetness that lingers.',
-    flavors: [{name:'Fruity',val:88},{name:'Floral',val:75},{name:'Sweet',val:70},{name:'Spicy',val:40},{name:'Smoky',val:12}],
-    bg: 'linear-gradient(160deg, #3d2b1a 0%, #1a1208 60%, #c8922a22 100%)',
-    kanji: '山崎'
-  },
-  // {
-  //   id: 2, filter: 'hakushu',
-  //   region: 'Hakushu Distillery', name: 'Hakushu 18 Year', sub: 'Single Malt · 43% ABV · 70cl',
-  //   age: '18 Years', abv: '43%', price: '¥42,000', priceSub: '£265 · Free UK delivery',
-  //   priceNum: 265, rating: 4.8, badge: 'Rare',
-  //   nose: 'Forest pine and fresh mint over crisp green apple. Hints of white peach, grapefruit zest, and a gentle peat smoke from afar.',
-  //   palate: 'Clean and vivid. Minty freshness gives way to creamy vanilla, with a distinct herbal quality. Lightly smoky and wonderfully balanced.',
-  //   finish: 'Medium-long, herbaceous and cooling. Green tea and citrus peel fade into delicate white smoke.',
-  //   flavors: [{name:'Herbal',val:85},{name:'Fruity',val:68},{name:'Smoky',val:38},{name:'Sweet',val:55},{name:'Floral',val:60}],
-  //   bg: 'linear-gradient(160deg, #1a3020 0%, #0d1a12 60%, #c9a84c18 100%)',
-  //   kanji: '白州'
-  // },
-  {
-    id: 3, filter: 'yoichi',
-    region: 'Yoichi Distillery', name: 'Yoichi Single Malt', sub: 'NAS · 45% ABV · 70cl',
-    age: 'Non-Age Statement', abv: '45%', price: '¥9,800', priceSub: '£62 · Free UK delivery',
-    priceNum: 62, rating: 4.6, badge: null,
-    nose: 'Robust and maritime. Sea salt, malt, and wood smoke arrive first, followed by dried fruit and a pleasing oil quality reminiscent of coastal Scotch.',
-    palate: 'Full-bodied and direct. Peat smoke, black pepper, dried apricot, and a hint of espresso. Wonderfully assertive.',
-    finish: 'Long and smoky with lingering pepper and dark fruit. Warming and deeply satisfying.',
-    flavors: [{name:'Smoky',val:80},{name:'Spicy',val:75},{name:'Fruity',val:50},{name:'Sweet',val:42},{name:'Herbal',val:30}],
-    bg: 'linear-gradient(160deg, #5a2a0a 0%, #2d1408 60%, #c8922a22 100%)',
-    kanji: '余市'
-  },
-  {
-    id: 4, filter: 'nikka',
-    region: 'Nikka Whisky', name: 'Nikka From The Barrel', sub: 'Blended · 51.4% ABV · 50cl',
-    age: 'Blended', abv: '51.4%', price: '¥6,200', priceSub: '£42 · Free UK delivery',
-    priceNum: 42, rating: 4.7, badge: 'Top Value',
-    nose: 'Punchy and rich. Dried cherry, dark chocolate, malt, and warming cask spice. Complex beyond its price.',
-    palate: 'Dense and oily at cask strength. Layers of vanilla, toasted oak, dried fruits, and black pepper unfurl on the palate.',
-    finish: 'Long and surprisingly smooth for the ABV. Caramel, oak, and dark fruit linger pleasantly.',
-    flavors: [{name:'Sweet',val:72},{name:'Spicy',val:70},{name:'Fruity',val:65},{name:'Smoky',val:35},{name:'Herbal',val:28}],
-    bg: 'linear-gradient(160deg, #2a1a3d 0%, #140820 60%, #c9a84c18 100%)',
-    kanji: '竹鶴'
-  },
-  {
-    id: 5, filter: 'hibiki',
-    region: 'Suntory — Hibiki', name: 'Hibiki Japanese Harmony', sub: 'Blended · 43% ABV · 70cl',
-    age: 'Blended', abv: '43%', price: '¥12,800', priceSub: '£80 · Free UK delivery',
-    priceNum: 80, rating: 4.7, badge: null,
-    nose: 'Seductively gentle. Honeyed orange peel, white flowers, and vanilla with hints of rose and sandalwood.',
-    palate: 'Harmonious and elegant — the name says it all. Candied citrus, honey, and soft oak integrate seamlessly. An ideal introduction.',
-    finish: 'Medium and warm. Honey and soft wood fade slowly, leaving a gentle sweetness.',
-    flavors: [{name:'Floral',val:80},{name:'Sweet',val:78},{name:'Fruity',val:68},{name:'Herbal',val:35},{name:'Smoky',val:10}],
-    bg: 'linear-gradient(160deg, #3a1e0a 0%, #1e0e05 60%, #e0b86a22 100%)',
-    kanji: '響'
-  },
-  {
-    id: 6, filter: 'yamazaki',
-    region: 'Yamazaki Distillery', name: 'Yamazaki 18 Year', sub: 'Single Malt · 43% ABV · 70cl',
-    age: '18 Years', abv: '43%', price: '¥68,000', priceSub: '£430 · Free UK delivery',
-    priceNum: 430, rating: 5.0, badge: 'Collector',
-    nose: 'Deeply complex. Ripe plum, black fig, candied orange peel, and an intoxicating Mizunara incense note. Something close to perfection.',
-    palate: 'Velvety and profound. Dark fruit compote, rich toffee, mocha, and a subtle sandalwood spice. Endlessly revealing.',
-    finish: 'Extraordinarily long. Dried fruit, dark chocolate, and the signature cedar of aged Mizunara oak echo for minutes.',
-    flavors: [{name:'Fruity',val:90},{name:'Sweet',val:82},{name:'Floral',val:72},{name:'Spicy',val:55},{name:'Smoky',val:20}],
-    bg: 'linear-gradient(160deg, #4a2810 0%, #1a0e04 60%, #c8922a30 100%)',
-    kanji: '山崎'
-  },
-  {
-    id: 7, filter: 'nikka',
-    region: 'Nikka Whisky — Coffey', name: 'Nikka Coffey Grain', sub: 'Grain · 45% ABV · 70cl',
-    age: 'NAS', abv: '45%', price: '¥8,400', priceSub: '£53 · Free UK delivery',
-    priceNum: 53, rating: 4.5, badge: null,
-    nose: 'Unusually expressive for grain whisky. Vanilla cream soda, tropical fruit, butterscotch, and toasted coconut.',
-    palate: 'Sweet and indulgent. Ripe banana, tropical trifle, and rich vanilla custard. Playful and distinctive.',
-    finish: 'Medium, leaving tropical sweetness and a hint of warming spice. Surprisingly complex.',
-    flavors: [{name:'Sweet',val:90},{name:'Fruity',val:82},{name:'Floral',val:50},{name:'Spicy',val:30},{name:'Smoky',val:8}],
-    bg: 'linear-gradient(160deg, #1a2a3d 0%, #0a1520 60%, #c8922a18 100%)',
-    kanji: '日果'
-  }
-];
+let WHISKIES = [];
+
+function mapWhisky(w) {
+  return {
+    id: w.id,
+    filter: w.filter_key,
+    region: w.distillery,
+    name: w.name,
+    sub: w.tagline,
+    age: w.age_statement,
+    abv: w.abv,
+    price: '¥' + w.price_jpy.toLocaleString(),
+    priceSub: '£' + w.price_gbp + ' · Free UK delivery',
+    priceNum: w.price_gbp,
+    rating: w.rating,
+    badge: w.badge,
+    kanji: w.kanji,
+    nose: w.nose,
+    palate: w.palate,
+    finish: w.finish,
+    flavors: (w.flavor_profile || []).map(f => ({ name: f.flavor_name, val: f.value })),
+    bg: w.background_css || 'linear-gradient(160deg, #3d2b1a 0%, #1a1208 60%, #c8922a22 100%)'
+  };
+}
 
 let currentFilter = 'all';
 let currentWhisky = null;
@@ -800,16 +739,24 @@ function toggleCartToast() {
   alert(cart.map(i => `${i.name} × ${i.qty} — ${i.price}`).join('\n') + `\n\nTotal items: ${cart.reduce((s,i)=>s+i.qty,0)}`);
 }
 
-// Apply filter from URL param (e.g. shop.html?filter=yamazaki)
-const urlFilter = new URLSearchParams(window.location.search).get('filter');
-if (urlFilter) {
-  const matchingChip = [...document.querySelectorAll('.filter-chip')]
-    .find(c => c.textContent.trim().toLowerCase() === urlFilter.toLowerCase());
-  if (matchingChip) setFilter(urlFilter, matchingChip);
-  else filterAndSort();
-} else {
-  filterAndSort();
+async function loadWhiskies() {
+  const items = await directusFetch(
+    '/items/whiskies?filter[status][_eq]=published&sort[]=sort&fields[]=*,flavor_profile.*'
+  );
+  WHISKIES = items.map(mapWhisky);
+
+  const urlFilter = new URLSearchParams(window.location.search).get('filter');
+  if (urlFilter) {
+    const matchingChip = [...document.querySelectorAll('.filter-chip')]
+      .find(c => c.textContent.trim().toLowerCase() === urlFilter.toLowerCase());
+    if (matchingChip) setFilter(urlFilter, matchingChip);
+    else filterAndSort();
+  } else {
+    filterAndSort();
+  }
 }
+
+loadWhiskies();
 updateCartCount();
 
 const observer = new IntersectionObserver(entries => {

@@ -361,38 +361,7 @@
 <div class="faq-section">
   <div class="faq-inner reveal">
     <h2>Frequently <em>Asked</em></h2>
-    <div class="faq-list">
-      <div class="faq-item">
-        <button class="faq-question" onclick="toggleFaq(this)">
-          Do you ship internationally? <span class="faq-icon">+</span>
-        </button>
-        <div class="faq-answer">Yes — we ship to most countries worldwide. Shipping costs and delivery times vary by destination. All orders include tracking. Please note that import duties may apply in your country, and are the responsibility of the customer.</div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-question" onclick="toggleFaq(this)">
-          How do you verify customer age? <span class="faq-icon">+</span>
-        </button>
-        <div class="faq-answer">We use a third-party age verification service at checkout, and our delivery partners are instructed to request ID for all alcohol deliveries. You must be 18 or older to purchase from Sakura Spirits.</div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-question" onclick="toggleFaq(this)">
-          Can I return a bottle? <span class="faq-icon">+</span>
-        </button>
-        <div class="faq-answer">Unopened bottles in original condition may be returned within 14 days for a full refund. We cannot accept returns on opened bottles. Please contact us first before returning any items.</div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-question" onclick="toggleFaq(this)">
-          Do you offer corporate gifting? <span class="faq-icon">+</span>
-        </button>
-        <div class="faq-answer">Absolutely. We offer bespoke corporate gifting packages, including custom engraving, personalised notes, and presentation boxes. Please contact us via the Trade / Wholesale subject to discuss your requirements.</div>
-      </div>
-      <div class="faq-item">
-        <button class="faq-question" onclick="toggleFaq(this)">
-          How often do you get new stock? <span class="faq-icon">+</span>
-        </button>
-        <div class="faq-answer">We refresh our collection seasonally, with occasional limited releases. Subscribe to our newsletter to be first to hear about new arrivals, especially rare and limited expressions.</div>
-      </div>
-    </div>
+    <div class="faq-list" id="faqList"></div>
   </div>
 </div>
 
@@ -413,6 +382,7 @@
   </div>
 </footer>
 
+<script src="directus.js"></script>
 <script>
 function updateCartCount() {
   const cart = JSON.parse(localStorage.getItem('sakura_cart') || '[]');
@@ -425,8 +395,18 @@ function setSubject(btn) {
   btn.classList.add('active');
 }
 
-function submitContact(e) {
+async function submitContact(e) {
   e.preventDefault();
+  const form = e.target;
+  const subject = document.querySelector('.subject-tab.active')?.textContent || '';
+  await directusPost('contact_submissions', {
+    first_name: form.querySelector('[placeholder="Emma"]').value,
+    last_name:  form.querySelector('[placeholder="Thornton"]').value,
+    email:      form.querySelector('[type="email"]').value,
+    subject,
+    message:    form.querySelector('textarea').value,
+    status:     'new'
+  }).catch(() => {});
   document.getElementById('formWrap').style.display = 'none';
   document.getElementById('formSuccess').style.display = 'block';
 }
@@ -437,6 +417,19 @@ function toggleFaq(btn) {
   document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
   if (!wasOpen) item.classList.add('open');
 }
+
+async function loadFAQs() {
+  const faqs = await directusFetch('/items/faqs?filter[status][_eq]=published&sort[]=sort');
+  document.getElementById('faqList').innerHTML = faqs.map(f => `
+    <div class="faq-item">
+      <button class="faq-question" onclick="toggleFaq(this)">
+        ${f.question} <span class="faq-icon">+</span>
+      </button>
+      <div class="faq-answer">${f.answer}</div>
+    </div>
+  `).join('');
+}
+loadFAQs();
 
 const observer = new IntersectionObserver(entries => {
   entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });

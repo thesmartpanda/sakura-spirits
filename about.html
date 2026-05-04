@@ -410,41 +410,7 @@
 <!-- TEAM -->
 <section class="team-section">
   <h2 class="reveal">The <em>Team</em></h2>
-  <div class="team-grid reveal" style="transition-delay:0.1s">
-    <div class="team-card">
-      <div class="team-card-img">
-        <div class="team-card-img-bg" style="background: linear-gradient(160deg, #3d2b1a 0%, #1a1208 100%)"></div>
-        <div class="team-card-initials">ET</div>
-      </div>
-      <div class="team-card-body">
-        <h3 class="team-card-name">Emma Thornton</h3>
-        <p class="team-card-role">Founder &amp; Head Buyer</p>
-        <p class="team-card-bio">Former sommelier and obsessive Japanese whisky enthusiast. Has visited every major distillery in Japan at least twice. Speaks passable Japanese, drinks excellent whisky.</p>
-      </div>
-    </div>
-    <div class="team-card">
-      <div class="team-card-img">
-        <div class="team-card-img-bg" style="background: linear-gradient(160deg, #1e3a5f 0%, #0d1a2e 100%)"></div>
-        <div class="team-card-initials">KW</div>
-      </div>
-      <div class="team-card-body">
-        <h3 class="team-card-name">Kenji Watanabe</h3>
-        <p class="team-card-role">Japan Liaison &amp; Master Taster</p>
-        <p class="team-card-bio">Born in Osaka, trained at Suntory, now splits his time between Tokyo and London. Kenji is our connection to the distilleries and the keeper of our tasting notes.</p>
-      </div>
-    </div>
-    <div class="team-card">
-      <div class="team-card-img">
-        <div class="team-card-img-bg" style="background: linear-gradient(160deg, #5a2a0a 0%, #2d1408 100%)"></div>
-        <div class="team-card-initials">SL</div>
-      </div>
-      <div class="team-card-body">
-        <h3 class="team-card-name">Sophie Laurent</h3>
-        <p class="team-card-role">Editorial &amp; Community</p>
-        <p class="team-card-bio">Whisky writer, former journalist, and firm believer that the best whisky stories are told over a shared glass. Writes all of our longer reviews and community letters.</p>
-      </div>
-    </div>
-  </div>
+  <div class="team-grid reveal" id="teamGrid" style="transition-delay:0.1s"></div>
 </section>
 
 <footer class="footer">
@@ -464,12 +430,37 @@
   </div>
 </footer>
 
+<script src="directus.js"></script>
 <script>
 function updateCartCount() {
   const cart = JSON.parse(localStorage.getItem('sakura_cart') || '[]');
   document.getElementById('cartCount').textContent = cart.reduce((s,i)=>s+i.qty,0);
 }
 updateCartCount();
+
+const BG_GRADIENTS = [
+  'linear-gradient(160deg, #3d2b1a 0%, #1a1208 100%)',
+  'linear-gradient(160deg, #1e3a5f 0%, #0d1a2e 100%)',
+  'linear-gradient(160deg, #5a2a0a 0%, #2d1408 100%)',
+];
+
+async function loadTeam() {
+  const members = await directusFetch('/items/team_members?sort[]=sort');
+  document.getElementById('teamGrid').innerHTML = members.map((m, i) => `
+    <div class="team-card">
+      <div class="team-card-img">
+        <div class="team-card-img-bg" style="background:${BG_GRADIENTS[i % BG_GRADIENTS.length]}"></div>
+        <div class="team-card-initials">${m.initials}</div>
+      </div>
+      <div class="team-card-body">
+        <h3 class="team-card-name">${m.name}</h3>
+        <p class="team-card-role">${m.role}</p>
+        <p class="team-card-bio">${m.bio}</p>
+      </div>
+    </div>
+  `).join('');
+}
+loadTeam();
 
 const observer = new IntersectionObserver(entries => {
   entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
