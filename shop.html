@@ -751,6 +751,10 @@ async function loadWhiskies() {
 loadWhiskies();
 updateCartCount();
 
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.05 });
+document.querySelectorAll('.reveal').forEach(r => observer.observe(r));
 </script>
 </body>
 </html>
