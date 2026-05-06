@@ -1,0 +1,130 @@
+.values {
+  padding: 6rem var(--page-pad);
+  max-width: var(--max-w);
+  margin: 0 auto;
+}
+
+.valuesIntro {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  margin-bottom: 5rem;
+  align-items: center;
+}
+
+.valuesIntroText h2 {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 3.5vw, 3rem);
+  font-weight: 300;
+  color: var(--brown-deep);
+  line-height: 1.15;
+  margin-bottom: 1.5rem;
+}
+
+.valuesIntroText h2 em { font-style: italic; color: var(--amber); }
+
+.valuesIntroText p {
+  color: var(--text-main);
+  font-size: 1rem;
+  line-height: 1.85;
+  margin-bottom: 1rem;
+  opacity: 0.9;
+}
+
+.valuesQuote {
+  background: var(--brown-deep);
+  padding: 5.5rem 3rem 3rem;
+  position: relative;
+}
+
+.valuesQuote::before {
+  content: '「';
+  position: absolute;
+  top: 1rem;
+  left: 1.5rem;
+  font-family: 'Noto Serif JP', serif;
+  font-size: 4rem;
+  color: var(--amber);
+  opacity: 0.4;
+  line-height: 1;
+}
+
+.valuesQuote blockquote {
+  font-family: var(--font-display);
+  font-size: clamp(1.3rem, 2vw, 1.7rem);
+  font-weight: 300;
+  font-style: italic;
+  color: var(--cream);
+  line-height: 1.5;
+}
+
+.valuesQuote cite {
+  display: block;
+  margin-top: 1.2rem;
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--amber);
+  font-style: normal;
+}
+
+.valuesGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--cream-deeper);
+}
+
+.valueItem {
+  background: var(--cream);
+  padding: 2.5rem 2rem;
+  transition: background 0.3s;
+}
+
+.valueItem:hover { background: var(--brown-deep); }
+.valueItem:hover .valueName,
+.valueItem:hover .valueDesc { color: var(--cream); }
+.valueItem:hover .valueNum { color: var(--amber); }
+
+.valueNum {
+  font-family: var(--font-display);
+  font-size: 3rem;
+  font-weight: 300;
+  color: var(--amber-light);
+  line-height: 1;
+  margin-bottom: 0.8rem;
+  transition: color 0.3s;
+}
+
+.valueName {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--brown-deep);
+  margin-bottom: 0.6rem;
+  transition: color 0.3s;
+}
+
+.valueJp {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 0.8rem;
+  color: var(--amber);
+  margin-bottom: 0.6rem;
+}
+
+.valueDesc {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  line-height: 1.7;
+  transition: color 0.3s;
+}
+
+@media (max-width: 900px) {
+  .valuesIntro { grid-template-columns: 1fr; }
+  .valuesGrid { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 600px) {
+  .valuesGrid { grid-template-columns: 1fr; }
+}

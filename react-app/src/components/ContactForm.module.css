@@ -1,0 +1,94 @@
+.contactFormWrap {
+  background: var(--cream-dark);
+  padding: 3rem;
+}
+
+.formTitle {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  font-weight: 300;
+  color: var(--brown-deep);
+  margin-bottom: 0.4rem;
+}
+
+.formSubtitle { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 2rem; }
+
+.contactForm { display: flex; flex-direction: column; gap: 1.2rem; }
+.cfRow { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.cfGroup { display: flex; flex-direction: column; gap: 0.4rem; }
+
+.cfLabel {
+  font-family: var(--font-display);
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--amber);
+}
+
+.cfInput, .cfSelect, .cfTextarea {
+  background: white;
+  border: 1px solid var(--cream-deeper);
+  color: var(--text-main);
+  padding: 0.8rem 1rem;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.2s;
+  width: 100%;
+}
+
+.cfInput:focus, .cfSelect:focus, .cfTextarea:focus { border-color: var(--amber); }
+.cfInput::placeholder, .cfTextarea::placeholder { color: rgba(44,31,16,0.35); }
+.cfTextarea { resize: vertical; min-height: 130px; }
+.cfSelect option { background: white; }
+
+.subjectTabs { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+
+.subjectTab {
+  padding: 0.4rem 1rem;
+  border: 1px solid var(--cream-deeper);
+  background: white;
+  font-family: var(--font-display);
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  cursor: pointer;
+  color: var(--text-main);
+  transition: all 0.2s;
+}
+
+.subjectTab:hover { border-color: var(--brown-mid); }
+
+.subjectTab.active {
+  background: var(--brown-deep);
+  color: var(--cream);
+  border-color: var(--brown-deep);
+}
+
+.cfSubmit {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.formSuccess { background: var(--brown-deep); padding: 2.5rem; text-align: center; }
+
+.formSuccessJp {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 1.8rem;
+  color: var(--amber);
+  margin-bottom: 0.5rem;
+}
+
+.formSuccessEn {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-style: italic;
+  color: var(--cream);
+}
+
+.formSuccessSub { font-size: 0.88rem; color: var(--cream-dark); opacity: 0.7; margin-top: 0.5rem; }
+
+@media (max-width: 900px) {
+  .cfRow { grid-template-columns: 1fr; }
+}

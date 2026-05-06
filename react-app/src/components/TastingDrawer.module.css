@@ -1,0 +1,178 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(26,18,8,0.7);
+  z-index: 2000;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
+}
+
+.overlay.open {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.drawer {
+  background: var(--cream);
+  width: min(520px, 100%);
+  height: 100vh;
+  overflow-y: auto;
+  transform: translateX(100%);
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.overlay.open .drawer { transform: translateX(0); }
+
+.drawerHeader {
+  background: var(--brown-deep);
+  padding: 2rem 2rem 1.5rem;
+  position: relative;
+}
+
+.drawerClose {
+  position: absolute;
+  top: 1.2rem;
+  right: 1.2rem;
+  background: none;
+  border: none;
+  color: var(--cream-dark);
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.drawerClose:hover { color: var(--amber); }
+
+.drawerRegion {
+  font-family: var(--font-display);
+  font-size: 0.7rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--amber);
+  margin-bottom: 0.4rem;
+}
+
+.drawerName {
+  font-family: var(--font-display);
+  font-size: 1.9rem;
+  font-weight: 300;
+  color: var(--cream);
+  line-height: 1.2;
+}
+
+.drawerMeta {
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+  color: var(--cream-dark);
+  opacity: 0.7;
+}
+
+.drawerBody { padding: 2rem; }
+
+.drawerSectionTitle {
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--amber);
+  margin-bottom: 0.8rem;
+  margin-top: 1.8rem;
+}
+
+.drawerSectionTitle:first-child { margin-top: 0; }
+
+.tastingNoteText {
+  font-size: 0.95rem;
+  color: var(--text-main);
+  line-height: 1.8;
+}
+
+.flavorProfile {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  margin-top: 0.5rem;
+}
+
+.flavorBarRow {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.flavorBarLabel {
+  font-family: var(--font-display);
+  font-size: 0.82rem;
+  width: 90px;
+  flex-shrink: 0;
+  color: var(--text-main);
+}
+
+.flavorBarTrack {
+  flex: 1;
+  height: 4px;
+  background: var(--cream-deeper);
+  position: relative;
+}
+
+.flavorBarFill {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  background: var(--amber);
+  transition: width 0.8s ease;
+}
+
+.flavorBarVal {
+  font-family: var(--font-display);
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  width: 24px;
+  text-align: right;
+}
+
+.drawerPriceRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--cream-dark);
+}
+
+.drawerPrice {
+  font-family: var(--font-display);
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: var(--brown-deep);
+}
+
+.drawerPriceSub {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  margin-top: 0.1rem;
+}
+
+.drawerAddBtn {
+  background: var(--amber);
+  color: var(--brown-deep);
+  border: none;
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 0.9rem 2rem;
+  cursor: pointer;
+  transition: all 0.25s;
+}
+
+.drawerAddBtn:hover {
+  background: var(--brown-deep);
+  color: var(--amber);
+}

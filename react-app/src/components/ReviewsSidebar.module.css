@@ -1,0 +1,56 @@
+.sidebar { position: sticky; top: calc(var(--nav-height) + 1.5rem); }
+.sidebarSection { margin-bottom: 2.5rem; }
+
+.sidebarTitle {
+  font-family: var(--font-display);
+  font-size: 0.7rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--amber);
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid var(--cream-deeper);
+}
+
+.sidebarFilterList { list-style: none; display: flex; flex-direction: column; gap: 0.3rem; }
+
+.sidebarFilterItem {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.45rem 0.7rem;
+  cursor: pointer;
+  font-family: var(--font-display);
+  font-size: 0.88rem;
+  color: var(--text-main);
+  transition: background 0.2s;
+}
+
+.sidebarFilterItem:hover { background: var(--cream-dark); }
+.sidebarFilterItem.active { background: var(--brown-deep); color: var(--cream); }
+
+.sidebarCount {
+  margin-left: auto;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.sidebarFilterItem.active .sidebarCount { color: var(--amber); }
+
+.starFilterRow {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.4rem 0.7rem;
+  cursor: pointer;
+  transition: background 0.2s;
+  font-size: 0.9rem;
+}
+
+.starFilterRow:hover { background: var(--cream-dark); }
+.starFilterRow.active { background: var(--brown-deep); }
+.starFilterRow.active .sfStars { color: var(--amber-light); }
+
+@media (max-width: 900px) {
+  .sidebar { position: static; }
+}

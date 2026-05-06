@@ -1,0 +1,47 @@
+.philosophy {
+  background: var(--brown-deep);
+  color: var(--cream);
+  padding: 5rem var(--page-pad);
+  position: relative;
+  overflow: hidden;
+}
+
+.philosophyInner {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5rem;
+  align-items: center;
+}
+
+.philosophyQuote {
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 3vw, 2.8rem);
+  font-weight: 300;
+  font-style: italic;
+  line-height: 1.35;
+  color: var(--cream);
+}
+
+.philosophyQuote span { color: var(--amber-light); }
+
+.philosophyText p {
+  font-size: 1rem;
+  color: var(--cream-dark);
+  margin-bottom: 1.2rem;
+  opacity: 0.85;
+}
+
+.philosophyAttr {
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--amber);
+  margin-top: 2rem;
+}
+
+@media (max-width: 900px) {
+  .philosophyInner { grid-template-columns: 1fr; gap: 2.5rem; }
+}

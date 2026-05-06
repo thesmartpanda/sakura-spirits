@@ -1,0 +1,73 @@
+.filterBar {
+  background: white;
+  border-bottom: 1px solid var(--cream-deeper);
+  padding: 0 var(--page-pad);
+  position: sticky;
+  top: var(--nav-height);
+  z-index: 100;
+}
+
+.filterBarInner {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  height: 56px;
+  overflow-x: auto;
+}
+
+.filterLabel {
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.filterChip {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.35rem 1rem;
+  border: 1px solid var(--cream-deeper);
+  background: none;
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+  color: var(--text-main);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+
+.filterChip:hover,
+.filterChip.active {
+  background: var(--brown-deep);
+  color: var(--cream);
+  border-color: var(--brown-deep);
+}
+
+.filterSort {
+  margin-left: auto;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.filterSort select {
+  border: 1px solid var(--cream-deeper);
+  background: none;
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  color: var(--text-main);
+  padding: 0.3rem 0.6rem;
+  outline: none;
+  cursor: pointer;
+}

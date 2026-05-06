@@ -1,0 +1,59 @@
+.reviewForm { display: flex; flex-direction: column; gap: 1rem; }
+.formRow { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.formGroup { display: flex; flex-direction: column; gap: 0.4rem; }
+
+.formLabel {
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--amber);
+}
+
+.formInput, .formSelect, .formTextarea {
+  background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(200,146,42,0.25);
+  color: var(--cream);
+  padding: 0.75rem 1rem;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.formInput:focus, .formSelect:focus, .formTextarea:focus { border-color: var(--amber); }
+.formInput::placeholder, .formTextarea::placeholder { color: rgba(245,234,208,0.35); }
+.formSelect option { background: var(--brown-deep); }
+.formTextarea { resize: vertical; min-height: 90px; }
+
+.formInput.fieldInvalid,
+.formSelect.fieldInvalid,
+.formTextarea.fieldInvalid { border-color: #c0392b; }
+
+.fieldError {
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  color: #e05c5c;
+  letter-spacing: 0.05em;
+  display: none;
+}
+
+.fieldError.show { display: block; }
+
+.starPicker { display: flex; gap: 0.3rem; }
+
+.starPick {
+  font-size: 1.4rem;
+  cursor: pointer;
+  color: var(--cream-deeper);
+  transition: color 0.15s, transform 0.15s;
+}
+
+.starPick:hover, .starPick.lit {
+  color: var(--amber);
+  transform: scale(1.15);
+}
+
+@media (max-width: 900px) {
+  .formRow { grid-template-columns: 1fr; }
+}

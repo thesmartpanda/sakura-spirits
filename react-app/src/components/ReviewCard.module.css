@@ -1,0 +1,180 @@
+@keyframes card-in {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.reviewCard {
+  border-bottom: 1px solid var(--cream-deeper);
+  padding: 2.5rem 0;
+  animation: card-in 0.4s ease both;
+}
+
+.reviewCardHeader {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 1.5rem;
+  align-items: start;
+  margin-bottom: 1.5rem;
+}
+
+.reviewScore {
+  width: 64px; height: 64px;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.reviewScoreNum {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 600;
+  line-height: 1;
+  color: white;
+}
+
+.reviewScoreLabel {
+  font-family: var(--font-display);
+  font-size: 0.5rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.75);
+  margin-top: 0.15rem;
+}
+
+.reviewCardDistillery {
+  font-family: var(--font-display);
+  font-size: 0.7rem;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--amber);
+  margin-bottom: 0.25rem;
+}
+
+.reviewCardName {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  font-weight: 400;
+  color: var(--brown-deep);
+  line-height: 1.15;
+}
+
+.reviewCardMeta {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  margin-top: 0.25rem;
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.metaTag {
+  background: var(--cream-dark);
+  padding: 0.15rem 0.6rem;
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+}
+
+.reviewCardStars { display: flex; gap: 3px; }
+.reviewCardStars :global(.star) { font-size: 1rem; }
+.reviewCardStars :global(.star.empty) { color: var(--cream-deeper); }
+
+.reviewTastingGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.tastingColHead {
+  font-family: var(--font-display);
+  font-size: 0.68rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--amber);
+  margin-bottom: 0.4rem;
+}
+
+.tastingColText {
+  font-size: 0.9rem;
+  color: var(--text-main);
+  line-height: 1.7;
+}
+
+.reviewVerdict {
+  background: var(--cream-dark);
+  padding: 1.2rem 1.4rem;
+  border-left: 3px solid var(--amber);
+  font-style: italic;
+  font-size: 0.95rem;
+  color: var(--text-main);
+  line-height: 1.7;
+  margin-bottom: 1.5rem;
+}
+
+.reviewFooter {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.reviewAuthor { display: flex; align-items: center; gap: 0.75rem; }
+
+.reviewAvatar {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: var(--brown-mid);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--amber);
+}
+
+.reviewAuthorName {
+  font-family: var(--font-display);
+  font-size: 0.88rem;
+  color: var(--text-main);
+}
+
+.reviewAuthorDate { font-size: 0.78rem; color: var(--text-muted); }
+
+.reviewExpandBtn {
+  background: none;
+  border: none;
+  font-family: var(--font-display);
+  font-size: 0.78rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  transition: color 0.2s;
+  margin-bottom: 1rem;
+}
+
+.reviewExpandBtn:hover { color: var(--amber); }
+.expandIcon { transition: transform 0.3s; display: inline-block; }
+.reviewExpandBtn.open .expandIcon { transform: rotate(180deg); }
+
+.reviewDetail {
+  overflow: hidden;
+  transition: max-height 0.4s ease;
+  max-height: 0;
+}
+
+.reviewDetail.open { max-height: 600px; }
+
+@media (max-width: 900px) {
+  .reviewTastingGrid { grid-template-columns: 1fr; }
+}
