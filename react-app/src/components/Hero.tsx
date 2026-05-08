@@ -24,6 +24,8 @@ export function Hero() {
         delay: Math.random() * 4,
       }
       setBlossoms((prev) => [...prev, item])
+      // 16 000 ms > max animation time (duration 14 s + delay 4 s) so the DOM
+      // node is only removed after the CSS animation has fully completed.
       setTimeout(
         () => setBlossoms((prev) => prev.filter((b) => b.id !== id)),
         16000,

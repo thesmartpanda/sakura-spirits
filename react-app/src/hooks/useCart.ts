@@ -15,9 +15,6 @@ export interface UseCartReturn {
   totalQty: number
   totalPrice: number  // sum of parsed GBP price × qty
   addItem: (item: Omit<CartItem, 'qty'>) => void
-  removeItem: (id: number) => void
-  updateQty: (id: number, qty: number) => void
-  clearCart: () => void
 }
 
 export const CART_KEY = 'sakura_cart'
@@ -47,19 +44,5 @@ export function useCart(): UseCartReturn {
     })
   }
 
-  const removeItem = (id: number) => {
-    setItems((prev) => prev.filter((i) => i.id !== id))
-  }
-
-  const updateQty = (id: number, qty: number) => {
-    if (qty <= 0) {
-      removeItem(id)
-      return
-    }
-    setItems((prev) => prev.map((i) => (i.id === id ? { ...i, qty } : i)))
-  }
-
-  const clearCart = () => setItems([])
-
-  return { items, totalQty, totalPrice, addItem, removeItem, updateQty, clearCart }
+  return { items, totalQty, totalPrice, addItem }
 }

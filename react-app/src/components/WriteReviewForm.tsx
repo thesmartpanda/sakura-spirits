@@ -4,6 +4,11 @@ import { useSubmitReview, useWhiskyOptions } from '../hooks'
 import { StarPicker } from './StarPicker'
 import styles from './WriteReviewForm.module.css'
 
+/**
+ * Text inputs are uncontrolled (refs) to avoid re-rendering the form on every
+ * keystroke. `stars` and `errors` are controlled state because they drive
+ * visible UI changes (star highlight, error messages).
+ */
 export function WriteReviewForm() {
   const { submitReview, submitting } = useSubmitReview()
   const { options } = useWhiskyOptions()
@@ -41,7 +46,7 @@ export function WriteReviewForm() {
       author_initials: initials,
       whisky_id: parseInt(whiskyId),
       stars,
-      score: Math.round((stars / 5) * 100),
+      score: Math.round((stars / 5) * 100), // 5 stars → 100, 4 stars → 80, etc.
       verdict: notes,
       review_date: new Date().toISOString().split('T')[0],
       status: 'draft',

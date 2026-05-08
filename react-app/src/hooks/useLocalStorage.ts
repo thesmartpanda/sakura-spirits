@@ -11,8 +11,18 @@ function readFromStorage<T>(key: string, fallback: T): T {
   }
 }
 
+/**
+ * Persists React state in `localStorage` with automatic cross-tab sync.
+ *
+ * Non-trivial choices:
+ * - `initialRef` captures `initialValue` once at mount so the `storage` event
+ *   handler always has a stable fallback without being re-registered on every render.
+ * - The handler reads `e.newValue` directly instead of re-calling `getItem` to
+ *   avoid a race where a third tab writes again between the event and our read.
+ * - The native `storage` event only fires in tabs *other* than the one that wrote,
+ *   so there is no risk of a loop between `setValue` and the handler.
+ */
 function useLocalStorage<T>(key: string, initialValue: T): [T, SetValue<T>] {
-  // Stable ref so the storage event handler never closes over a stale initialValue
   const initialRef = useRef(initialValue)
 
   const [value, setRawValue] = useState<T>(() =>
@@ -35,10 +45,7 @@ function useLocalStorage<T>(key: string, initialValue: T): [T, SetValue<T>] {
     [key],
   )
 
-  // Cross-tab sync: the native 'storage' event only fires in tabs OTHER than
-  // the one that called setItem, which is exactly what we need here.
-  // We use e.newValue directly rather than re-reading localStorage to avoid
-  // races when another tab writes rapidly.
+  // Cross-tab sync — see JSDoc above for why e.newValue is read directly.
   useEffect(() => {
     const handleStorage = (e: StorageEvent) => {
       if (e.storageArea !== localStorage || e.key !== key) return

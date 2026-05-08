@@ -4,6 +4,11 @@ interface CartToastProps {
   visible: boolean
 }
 
+/**
+ * Rendered via `createPortal` to escape ancestor stacking contexts.
+ * `pointerEvents: none` ensures the toast never intercepts clicks on the UI
+ * underneath it while it is visible or animating out.
+ */
 export function CartToast({ visible }: CartToastProps) {
   return createPortal(
     <div

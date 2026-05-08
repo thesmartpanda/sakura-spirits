@@ -15,7 +15,9 @@ export function WhiskyCard({ whisky: w, onOpenDrawer }: WhiskyCardProps) {
   const [added, setAdded] = useState(false)
 
   const handleAdd = (e: React.MouseEvent) => {
+    // stopPropagation prevents the card's onClick (open drawer) from also firing.
     e.stopPropagation()
+    // priceSub format: '£85 · Free UK delivery' — only the price token is stored.
     addItem({ id: w.id, name: w.name, price: w.priceSub.split('·')[0].trim() })
     setAdded(true)
     setTimeout(() => setAdded(false), 1400)

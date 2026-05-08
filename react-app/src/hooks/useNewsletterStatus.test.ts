@@ -49,23 +49,3 @@ describe('subscribe', () => {
     expect(result.current.status).toBe('subscribed')
   })
 })
-
-describe('reset', () => {
-  it('sets status back to idle', () => {
-    const { result } = renderHook(() => useNewsletterStatus())
-    act(() => result.current.subscribe())
-
-    act(() => result.current.reset())
-
-    expect(result.current.status).toBe('idle')
-  })
-
-  it('persists idle to localStorage', () => {
-    const { result } = renderHook(() => useNewsletterStatus())
-    act(() => result.current.subscribe())
-
-    act(() => result.current.reset())
-
-    expect(localStorage.getItem(NEWSLETTER_KEY)).toBe('"idle"')
-  })
-})

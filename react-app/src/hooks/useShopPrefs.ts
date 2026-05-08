@@ -18,7 +18,6 @@ export interface UseShopPrefsReturn {
   prefs: ShopPrefs
   setSort: (sort: SortOption) => void
   setFilter: (filter: string) => void
-  resetPrefs: () => void
 }
 
 export function useShopPrefs(): UseShopPrefsReturn {
@@ -26,7 +25,6 @@ export function useShopPrefs(): UseShopPrefsReturn {
 
   const setSort = (sort: SortOption) => setPrefs((prev) => ({ ...prev, sort }))
   const setFilter = (filter: string) => setPrefs((prev) => ({ ...prev, filter }))
-  const resetPrefs = () => setPrefs(DEFAULT_PREFS)
 
-  return { prefs, setSort, setFilter, resetPrefs }
+  return { prefs, setSort, setFilter }
 }

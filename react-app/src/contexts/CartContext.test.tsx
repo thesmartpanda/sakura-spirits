@@ -60,33 +60,6 @@ describe('addItem', () => {
   })
 })
 
-describe('removeItem', () => {
-  it('removes an item via context', () => {
-    const { result } = renderCart()
-    act(() => result.current.addItem({ id: 1, name: 'Hibiki', price: '£120' }))
-    act(() => result.current.removeItem(1))
-    expect(result.current.items).toEqual([])
-  })
-})
-
-describe('updateQty', () => {
-  it('updates quantity via context', () => {
-    const { result } = renderCart()
-    act(() => result.current.addItem({ id: 1, name: 'Hibiki', price: '£120' }))
-    act(() => result.current.updateQty(1, 4))
-    expect(result.current.items[0].qty).toBe(4)
-  })
-})
-
-describe('clearCart', () => {
-  it('empties the cart via context', () => {
-    const { result } = renderCart()
-    act(() => result.current.addItem({ id: 1, name: 'Hibiki', price: '£120' }))
-    act(() => result.current.clearCart())
-    expect(result.current.items).toEqual([])
-  })
-})
-
 // ─── Shared state across consumers ───────────────────────────────
 
 describe('shared state', () => {

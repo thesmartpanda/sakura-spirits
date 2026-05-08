@@ -1,6 +1,6 @@
 import { act, renderHook } from '@testing-library/react'
 import { afterEach, beforeEach, describe, expect, it } from 'vitest'
-import { DEFAULT_PREFS, SHOP_PREFS_KEY, useShopPrefs } from './useShopPrefs'
+import { SHOP_PREFS_KEY, useShopPrefs } from './useShopPrefs'
 
 beforeEach(() => {
   localStorage.clear()
@@ -77,27 +77,5 @@ describe('setFilter', () => {
     act(() => result.current.setFilter(''))
 
     expect(result.current.prefs.filter).toBe('')
-  })
-})
-
-describe('resetPrefs', () => {
-  it('resets all prefs to defaults', () => {
-    const { result } = renderHook(() => useShopPrefs())
-    act(() => result.current.setSort('price-asc'))
-    act(() => result.current.setFilter('blended'))
-
-    act(() => result.current.resetPrefs())
-
-    expect(result.current.prefs).toEqual(DEFAULT_PREFS)
-  })
-
-  it('persists the reset to localStorage', () => {
-    const { result } = renderHook(() => useShopPrefs())
-    act(() => result.current.setSort('rating'))
-
-    act(() => result.current.resetPrefs())
-
-    const stored = JSON.parse(localStorage.getItem(SHOP_PREFS_KEY)!)
-    expect(stored).toEqual(DEFAULT_PREFS)
   })
 })

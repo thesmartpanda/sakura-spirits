@@ -14,6 +14,12 @@ const BlossomPetals = ({ centerR = 10 }: { centerR?: number }) => (
   </g>
 )
 
+/**
+ * Two separate hooks are used intentionally:
+ * - `useSubscribeNewsletter` handles the API call (fire-and-forget POST).
+ * - `useNewsletterStatus` persists the subscribed state in localStorage so the
+ *   form stays hidden across page reloads without querying the API again.
+ */
 export function NewsletterSection() {
   const [email, setEmail] = useState('')
   const { subscribe: apiSubscribe, submitting } = useSubscribeNewsletter()
@@ -26,7 +32,8 @@ export function NewsletterSection() {
     try {
       await apiSubscribe(email.trim())
     } catch {
-      // duplicate email — treat as success
+      // API errors (including duplicate email) are swallowed — the UX goal is
+      // to hide the form after any attempt, not to surface backend details.
     }
     markSubscribed()
     setEmail('')

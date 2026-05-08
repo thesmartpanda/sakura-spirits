@@ -28,7 +28,8 @@ export function useMutation<TData, TPayload>(
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState<Error | null>(null)
 
-  // Always call the latest version of the function without re-creating submit
+  // fnRef pattern: keeps `submit` stable (no deps array entry for mutationFn)
+  // while always invoking the latest version of the function passed by the caller.
   const fnRef = useRef(mutationFn)
   fnRef.current = mutationFn
 

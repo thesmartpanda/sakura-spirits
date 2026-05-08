@@ -16,6 +16,10 @@ export interface WhiskyOption {
   name: string
 }
 
+/**
+ * `useMemo` prevents `mapWhisky` from running on every render — only when the
+ * raw API response reference changes (i.e. a fresh fetch completed).
+ */
 export function useWhiskies(query = SHOP_QUERY): {
   whiskies: Whisky[]
   loading: boolean

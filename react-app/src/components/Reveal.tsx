@@ -18,6 +18,8 @@ export function Reveal({ children, className, style }: RevealProps) {
       ([entry]) => {
         if (entry.isIntersecting) {
           setVisible(true)
+          // Disconnect immediately — the reveal is one-shot; we never re-hide
+          // an element that has already entered the viewport.
           obs.disconnect()
         }
       },
