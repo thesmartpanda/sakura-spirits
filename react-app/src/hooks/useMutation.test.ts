@@ -9,7 +9,7 @@ afterEach(() => vi.restoreAllMocks())
 type Payload = { value: string }
 type Response = { id: number }
 
-function makeHook(fn = vi.fn<[Payload, AbortSignal], Promise<Response>>()) {
+function makeHook(fn = vi.fn<(payload: Payload, signal: AbortSignal) => Promise<Response>>()) {
   return { fn, hook: renderHook(() => useMutation<Response, Payload>(fn)) }
 }
 
