@@ -10,7 +10,7 @@ const NAV_LINKS = [
 ]
 
 export function Nav() {
-  const { totalQty } = useCartContext()
+  useCartContext()
 
   return (
     <nav className={styles.nav}>
