@@ -398,31 +398,93 @@
 
     /* === NEWSLETTER === */
     .newsletter {
-      padding: 5rem var(--page-pad);
-      background: linear-gradient(135deg, #f5ead0 0%, #e8d5b5 100%);
+      padding: 6rem var(--page-pad);
+      background:
+        radial-gradient(ellipse 60% 80% at 50% 50%, #2a1a0e 0%, #1a1208 70%),
+        var(--brown-deep);
       text-align: center;
       position: relative;
       overflow: hidden;
+      isolation: isolate;
+    }
+
+    .newsletter::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse 50% 50% at 50% 50%, rgba(200,146,42,0.08), transparent 70%);
+      z-index: 0;
     }
 
     .newsletter-inner {
       max-width: 540px;
       margin: 0 auto;
       position: relative;
-      z-index: 2;
+      z-index: 3;
     }
 
     .newsletter h2 {
       font-family: var(--font-display);
       font-size: clamp(1.8rem, 3vw, 2.6rem);
       font-weight: 300;
-      color: var(--brown-deep);
+      color: var(--cream);
       margin-bottom: 0.8rem;
     }
 
-    .newsletter p {
-      color: var(--text-muted);
+    .newsletter h2 em {
+      font-style: italic;
+      color: var(--amber-light);
+    }
+
+    .newsletter > .section-label {
+      color: var(--amber);
+    }
+
+    .newsletter p.nl-desc {
+      color: var(--cream-dark);
+      opacity: 0.75;
       margin-bottom: 2rem;
+    }
+
+    /* Blossom decorations — subtle, fully visible, no cropping */
+    .nl-blossom {
+      position: absolute;
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0.18;
+    }
+
+    .nl-blossom-1 { top: 8%;  left: 5%;   width: 130px; transform: rotate(-15deg); }
+    .nl-blossom-2 { bottom: 8%; right: 5%; width: 150px; transform: rotate(20deg); opacity: 0.16; }
+    .nl-blossom-3 { top: 50%; left: 14%; width: 55px; transform: rotate(45deg); opacity: 0.22; }
+    .nl-blossom-4 { top: 22%; right: 16%; width: 70px; transform: rotate(-25deg); opacity: 0.2; }
+    .nl-blossom-5 { bottom: 20%; left: 28%; width: 42px; transform: rotate(60deg); opacity: 0.18; }
+
+    @keyframes drift {
+      0%, 100% { transform: var(--start-rot) translateY(0); }
+      50%       { transform: var(--start-rot) translateY(-8px); }
+    }
+
+    .nl-blossom-3 { --start-rot: rotate(45deg);  animation: drift 6s ease-in-out infinite; }
+    .nl-blossom-4 { --start-rot: rotate(-25deg); animation: drift 7s ease-in-out infinite 1s; }
+    .nl-blossom-5 { --start-rot: rotate(60deg);  animation: drift 5s ease-in-out infinite 2s; }
+
+    /* Branch accent */
+    .nl-branch {
+      position: absolute;
+      top: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80%;
+      max-width: 600px;
+      height: 2px;
+      background: linear-gradient(to right,
+        transparent 0%,
+        rgba(200,146,42,0) 10%,
+        rgba(200,146,42,0.3) 50%,
+        rgba(200,146,42,0) 90%,
+        transparent 100%);
+      z-index: 1;
     }
 
     .newsletter-form {
@@ -435,23 +497,27 @@
     .newsletter-form input {
       flex: 1;
       padding: 0.9rem 1.2rem;
-      border: 1px solid var(--cream-deeper);
+      border: 1px solid rgba(200,146,42,0.35);
       border-right: none;
-      background: white;
+      background: rgba(245,234,208,0.06);
       font-family: var(--font-body);
       font-size: 0.95rem;
-      color: var(--text-main);
+      color: var(--cream);
       outline: none;
+      transition: border-color 0.2s, background 0.2s;
     }
 
-    .newsletter-form input::placeholder { color: var(--text-muted); }
-    .newsletter-form input:focus { border-color: var(--amber); }
+    .newsletter-form input::placeholder { color: rgba(245,234,208,0.45); }
+    .newsletter-form input:focus {
+      border-color: var(--amber);
+      background: rgba(245,234,208,0.1);
+    }
 
     .newsletter-form button {
       padding: 0.9rem 1.6rem;
-      background: var(--brown-deep);
-      color: var(--cream);
-      border: 1px solid var(--brown-deep);
+      background: var(--amber);
+      color: var(--brown-deep);
+      border: 1px solid var(--amber);
       font-family: var(--font-display);
       font-size: 0.8rem;
       letter-spacing: 0.2em;
@@ -461,16 +527,9 @@
     }
 
     .newsletter-form button:hover {
-      background: var(--amber);
-      border-color: var(--amber);
+      background: var(--amber-light);
+      border-color: var(--amber-light);
       color: var(--brown-deep);
-    }
-
-    /* Decorative blossom bg */
-    .blossom-bg {
-      position: absolute;
-      opacity: 0.06;
-      pointer-events: none;
     }
 
     /* === RESPONSIVE === */
@@ -602,23 +661,67 @@
 
 <!-- NEWSLETTER -->
 <section class="newsletter">
-  <!-- Blossom decorations -->
-  <svg class="blossom-bg" style="left:-80px;top:-60px;width:300px" viewBox="0 0 200 200">
-    <g opacity="0.8">
-      <circle cx="100" cy="100" r="60" fill="#c8922a"/>
-      <circle cx="100" cy="60" r="22" fill="#e0b86a"/>
-      <circle cx="134" cy="80" r="22" fill="#e0b86a"/>
-      <circle cx="122" cy="118" r="22" fill="#e0b86a"/>
-      <circle cx="78" cy="118" r="22" fill="#e0b86a"/>
-      <circle cx="66" cy="80" r="22" fill="#e0b86a"/>
-      <circle cx="100" cy="100" r="10" fill="#f5ead0"/>
+  <div class="nl-branch"></div>
+
+  <svg class="nl-blossom nl-blossom-1" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+    <g>
+      <ellipse cx="100" cy="55" rx="26" ry="42" fill="#f5c5c5"/>
+      <ellipse cx="100" cy="55" rx="26" ry="42" fill="#f5c5c5" transform="rotate(72 100 100)"/>
+      <ellipse cx="100" cy="55" rx="26" ry="42" fill="#f5c5c5" transform="rotate(144 100 100)"/>
+      <ellipse cx="100" cy="55" rx="26" ry="42" fill="#f5c5c5" transform="rotate(216 100 100)"/>
+      <ellipse cx="100" cy="55" rx="26" ry="42" fill="#f5c5c5" transform="rotate(288 100 100)"/>
+      <circle cx="100" cy="100" r="10" fill="#ffd700"/>
+    </g>
+  </svg>
+
+  <svg class="nl-blossom nl-blossom-2" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+    <g>
+      <ellipse cx="100" cy="55" rx="26" ry="42" fill="#f5c5c5"/>
+      <ellipse cx="100" cy="55" rx="26" ry="42" fill="#f5c5c5" transform="rotate(72 100 100)"/>
+      <ellipse cx="100" cy="55" rx="26" ry="42" fill="#f5c5c5" transform="rotate(144 100 100)"/>
+      <ellipse cx="100" cy="55" rx="26" ry="42" fill="#f5c5c5" transform="rotate(216 100 100)"/>
+      <ellipse cx="100" cy="55" rx="26" ry="42" fill="#f5c5c5" transform="rotate(288 100 100)"/>
+      <circle cx="100" cy="100" r="10" fill="#ffd700"/>
+    </g>
+  </svg>
+
+  <svg class="nl-blossom nl-blossom-3" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+    <g>
+      <ellipse cx="100" cy="55" rx="26" ry="42" fill="#f5c5c5"/>
+      <ellipse cx="100" cy="55" rx="26" ry="42" fill="#f5c5c5" transform="rotate(72 100 100)"/>
+      <ellipse cx="100" cy="55" rx="26" ry="42" fill="#f5c5c5" transform="rotate(144 100 100)"/>
+      <ellipse cx="100" cy="55" rx="26" ry="42" fill="#f5c5c5" transform="rotate(216 100 100)"/>
+      <ellipse cx="100" cy="55" rx="26" ry="42" fill="#f5c5c5" transform="rotate(288 100 100)"/>
+      <circle cx="100" cy="100" r="11" fill="#ffd700"/>
+    </g>
+  </svg>
+
+  <svg class="nl-blossom nl-blossom-4" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+    <g>
+      <ellipse cx="100" cy="55" rx="26" ry="42" fill="#f5c5c5"/>
+      <ellipse cx="100" cy="55" rx="26" ry="42" fill="#f5c5c5" transform="rotate(72 100 100)"/>
+      <ellipse cx="100" cy="55" rx="26" ry="42" fill="#f5c5c5" transform="rotate(144 100 100)"/>
+      <ellipse cx="100" cy="55" rx="26" ry="42" fill="#f5c5c5" transform="rotate(216 100 100)"/>
+      <ellipse cx="100" cy="55" rx="26" ry="42" fill="#f5c5c5" transform="rotate(288 100 100)"/>
+      <circle cx="100" cy="100" r="11" fill="#ffd700"/>
+    </g>
+  </svg>
+
+  <svg class="nl-blossom nl-blossom-5" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+    <g>
+      <ellipse cx="100" cy="55" rx="26" ry="42" fill="#f5c5c5"/>
+      <ellipse cx="100" cy="55" rx="26" ry="42" fill="#f5c5c5" transform="rotate(72 100 100)"/>
+      <ellipse cx="100" cy="55" rx="26" ry="42" fill="#f5c5c5" transform="rotate(144 100 100)"/>
+      <ellipse cx="100" cy="55" rx="26" ry="42" fill="#f5c5c5" transform="rotate(216 100 100)"/>
+      <ellipse cx="100" cy="55" rx="26" ry="42" fill="#f5c5c5" transform="rotate(288 100 100)"/>
+      <circle cx="100" cy="100" r="11" fill="#ffd700"/>
     </g>
   </svg>
 
   <div class="newsletter-inner reveal">
     <p class="section-label" style="justify-content:center;display:flex">ニュースレター</p>
-    <h2>Stay in the Know</h2>
-    <p>New arrivals, tasting notes, and rare finds — delivered to your inbox.</p>
+    <h2>Stay in the <em>Know</em></h2>
+    <p class="nl-desc">New arrivals, tasting notes, and rare finds — delivered to your inbox.</p>
     <form class="newsletter-form" onsubmit="handleNewsletter(event)">
       <input type="email" placeholder="Your email address" id="emailInput" />
       <button type="submit">Subscribe</button>
@@ -676,11 +779,6 @@
 <script src="directus.js"></script>
 <script>
   // Cart count from localStorage
-  function updateCartCount() {
-    const cart = JSON.parse(localStorage.getItem('sakura_cart') || '[]');
-    const total = cart.reduce((s, i) => s + i.qty, 0);
-    document.getElementById('cartCount').textContent = total;
-  }
   updateCartCount();
   window.addEventListener('storage', updateCartCount);
 
@@ -749,12 +847,6 @@
   }
   setInterval(createBlossom, 1200);
 
-  // Scroll reveal
-  const reveals = document.querySelectorAll('.reveal');
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-  }, { threshold: 0.1 });
-  reveals.forEach(r => observer.observe(r));
 
   async function handleNewsletter(e) {
     e.preventDefault();

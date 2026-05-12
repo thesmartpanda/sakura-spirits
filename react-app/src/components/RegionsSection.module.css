@@ -1,0 +1,61 @@
+.regions {
+  padding: 6rem var(--page-pad);
+  max-width: var(--max-w);
+  margin: 0 auto;
+}
+
+.regionsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1px;
+  background: var(--cream-deeper);
+  margin-top: 3rem;
+}
+
+.regionCard {
+  background: var(--cream);
+  padding: 2.5rem 2rem;
+  text-align: center;
+  transition: background 0.3s;
+  cursor: pointer;
+  text-decoration: none;
+  display: block;
+}
+
+.regionCard:hover { background: var(--brown-deep); }
+.regionCard:hover .regionName,
+.regionCard:hover .regionDesc { color: var(--cream); }
+.regionCard:hover .regionKanji { color: var(--amber); }
+
+.regionKanji {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 2.5rem;
+  color: var(--amber);
+  margin-bottom: 0.5rem;
+  transition: color 0.3s;
+}
+
+.regionName {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  color: var(--brown-deep);
+  margin-bottom: 0.5rem;
+  transition: color 0.3s;
+}
+
+.regionDesc {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+  transition: color 0.3s;
+}
+
+@media (max-width: 900px) {
+  .regionsGrid { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 600px) {
+  .regionsGrid { grid-template-columns: 1fr 1fr; }
+}

@@ -1,0 +1,121 @@
+.nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  height: var(--nav-height);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 var(--page-pad);
+  background: rgba(26, 18, 8, 0.94);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(200, 146, 42, 0.2);
+}
+
+.navLogo {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  text-decoration: none;
+}
+
+.navLogoEn {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 600;
+  color: var(--cream);
+  letter-spacing: 0.12em;
+  line-height: 1.1;
+}
+
+.navLogoJp {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 0.65rem;
+  color: var(--amber);
+  letter-spacing: 0.3em;
+  font-weight: 300;
+}
+
+.navLinks {
+  display: flex;
+  align-items: center;
+  gap: 2.5rem;
+  list-style: none;
+}
+
+.navLinks a {
+  font-family: var(--font-display);
+  font-size: 0.85rem;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--cream-dark);
+  text-decoration: none;
+  position: relative;
+  transition: color 0.3s;
+}
+
+.navLinks a::after {
+  content: '';
+  position: absolute;
+  bottom: -3px; left: 0; right: 0;
+  height: 1px;
+  background: var(--amber);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.3s ease;
+}
+
+.navLinks a:hover,
+.navLinks a:global(.active) {
+  color: var(--amber-light);
+}
+
+.navLinks a:hover::after,
+.navLinks a:global(.active)::after {
+  transform: scaleX(1);
+}
+
+.navCart {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: none;
+  border: 1px solid rgba(200,146,42,0.4);
+  color: var(--amber-light);
+  font-family: var(--font-display);
+  font-size: 0.8rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 0.45rem 1rem;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.3s;
+}
+
+.navCart:hover {
+  background: var(--amber);
+  color: var(--brown-deep);
+  border-color: var(--amber);
+}
+
+.navCartCount {
+  background: var(--amber);
+  color: var(--brown-deep);
+  font-size: 0.7rem;
+  font-weight: 700;
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: sans-serif;
+  transition: background 0.3s, color 0.3s;
+}
+
+.navCart:hover .navCartCount {
+  background: var(--brown-deep);
+  color: var(--amber);
+}
+
+@media (max-width: 768px) {
+  .navLinks { display: none; }
+}

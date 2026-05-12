@@ -268,6 +268,17 @@
     .form-select option { background: var(--brown-deep); }
     .form-textarea { resize: vertical; min-height: 90px; }
 
+    .form-input.field-invalid,
+    .form-select.field-invalid,
+    .form-textarea.field-invalid { border-color: #c0392b; }
+
+    .field-error {
+      font-family: var(--font-display); font-size: 0.72rem;
+      color: #e05c5c; letter-spacing: 0.05em;
+      display: none;
+    }
+    .field-error.show { display: block; }
+
     .star-picker { display: flex; gap: 0.3rem; }
     .star-pick {
       font-size: 1.4rem; cursor: pointer; color: var(--cream-deeper);
@@ -392,19 +403,15 @@
       <div class="form-row">
         <div class="form-group">
           <label class="form-label">Your Name</label>
-          <input class="form-input" type="text" placeholder="Tanaka Hiroshi" required />
+          <input class="form-input" id="reviewName" type="text" placeholder="Tanaka Hiroshi" />
+          <span class="field-error" id="nameError">Please enter your name.</span>
         </div>
         <div class="form-group">
           <label class="form-label">Whisky</label>
-          <select class="form-select">
-            <option>Yamazaki 12 Year</option>
-            <option>Hakushu 18 Year</option>
-            <option>Yoichi Single Malt</option>
-            <option>Nikka From The Barrel</option>
-            <option>Hibiki Japanese Harmony</option>
-            <option>Yamazaki 18 Year</option>
-            <option>Nikka Coffey Grain</option>
+          <select class="form-select" id="whiskySelect">
+            <option value="">Loading…</option>
           </select>
+          <span class="field-error" id="whiskyError">Please select a whisky.</span>
         </div>
       </div>
       <div class="form-group">
@@ -416,10 +423,12 @@
           <span class="star-pick" data-val="4">★</span>
           <span class="star-pick" data-val="5">★</span>
         </div>
+        <span class="field-error" id="starsError">Please select a rating.</span>
       </div>
       <div class="form-group">
         <label class="form-label">Tasting Notes</label>
-        <textarea class="form-textarea" placeholder="Describe what you smell, taste, and feel…" required></textarea>
+        <textarea class="form-textarea" id="reviewNotes" placeholder="Describe what you smell, taste, and feel…"></textarea>
+        <span class="field-error" id="notesError">Please add your tasting notes.</span>
       </div>
       <button type="submit" class="btn-primary" style="align-self:flex-start"><span>Submit Review</span></button>
       <p id="reviewSuccess" style="display:none;color:var(--amber);font-family:var(--font-display);font-style:italic;font-size:0.9rem;">Arigatou — your review has been received.</p>
@@ -447,9 +456,9 @@
 <script src="directus.js"></script>
 <script>
 let REVIEWS = [];
-
 let activeDistillery = 'all';
 let activeMinScore = 0;
+let pickedStars = 0;
 
 function getScoreColor(s) {
   if (s >= 95) return '#c8922a';
@@ -486,7 +495,7 @@ function renderReviews() {
           <div class="review-card-meta">
             <span class="meta-tag">${r.age}</span>
             <span class="meta-tag">${r.abv} ABV</span>
-            <span class="meta-tag">${r.badge}</span>
+            ${r.badge ? `<span class="meta-tag">${r.badge}</span>` : ''}
           </div>
         </div>
         <div class="review-card-stars">${renderStars(r.stars)}</div>
@@ -541,15 +550,65 @@ function filterByScore(min, el) {
   renderReviews();
 }
 
-function submitReview(e) {
+function clearFieldError(inputEl, errorId) {
+  inputEl.classList.remove('field-invalid');
+  document.getElementById(errorId).classList.remove('show');
+}
+
+async function submitReview(e) {
   e.preventDefault();
+
+  const nameInput   = document.getElementById('reviewName');
+  const whiskySelect = document.getElementById('whiskySelect');
+  const notesInput  = document.getElementById('reviewNotes');
+
+  // Reset all error states
+  [nameInput, whiskySelect, notesInput].forEach(el => el.classList.remove('field-invalid'));
+  ['nameError', 'whiskyError', 'starsError', 'notesError'].forEach(id =>
+    document.getElementById(id).classList.remove('show')
+  );
+
+  let valid = true;
+  if (!nameInput.value.trim()) {
+    nameInput.classList.add('field-invalid');
+    document.getElementById('nameError').classList.add('show');
+    valid = false;
+  }
+  if (!whiskySelect.value) {
+    whiskySelect.classList.add('field-invalid');
+    document.getElementById('whiskyError').classList.add('show');
+    valid = false;
+  }
+  if (pickedStars < 1 || pickedStars > 5) {
+    document.getElementById('starsError').classList.add('show');
+    valid = false;
+  }
+  if (!notesInput.value.trim()) {
+    notesInput.classList.add('field-invalid');
+    document.getElementById('notesError').classList.add('show');
+    valid = false;
+  }
+  if (!valid) return;
+
+  const name = nameInput.value.trim();
+  await directusPost('reviews', {
+    author_name: name,
+    author_initials: name.split(/\s+/).map(p => p[0]).join('').toUpperCase().slice(0, 2),
+    whisky_id: parseInt(whiskySelect.value),
+    stars: pickedStars,
+    score: Math.round((pickedStars / 5) * 100),
+    verdict: notesInput.value.trim(),
+    review_date: new Date().toISOString().split('T')[0],
+    status: 'draft'
+  }).catch(() => {});
+
   document.getElementById('reviewSuccess').style.display = 'block';
   e.target.reset();
+  pickedStars = 0;
   document.querySelectorAll('.star-pick').forEach(s => s.classList.remove('lit'));
 }
 
 // Star picker
-let pickedStars = 0;
 document.querySelectorAll('.star-pick').forEach(star => {
   star.addEventListener('mouseover', () => {
     const val = parseInt(star.dataset.val);
@@ -559,18 +618,22 @@ document.querySelectorAll('.star-pick').forEach(star => {
   });
   star.addEventListener('click', () => {
     pickedStars = parseInt(star.dataset.val);
+    document.getElementById('starsError').classList.remove('show');
   });
 });
+
+document.getElementById('reviewName').addEventListener('input', () =>
+  clearFieldError(document.getElementById('reviewName'), 'nameError'));
+document.getElementById('whiskySelect').addEventListener('change', () =>
+  clearFieldError(document.getElementById('whiskySelect'), 'whiskyError'));
+document.getElementById('reviewNotes').addEventListener('input', () =>
+  clearFieldError(document.getElementById('reviewNotes'), 'notesError'));
 document.getElementById('starPicker').addEventListener('mouseleave', () => {
   document.querySelectorAll('.star-pick').forEach(s => {
     s.classList.toggle('lit', parseInt(s.dataset.val) <= pickedStars);
   });
 });
 
-function updateCartCount() {
-  const cart = JSON.parse(localStorage.getItem('sakura_cart') || '[]');
-  document.getElementById('cartCount').textContent = cart.reduce((s,i)=>s+i.qty,0);
-}
 updateCartCount();
 
 function mapReview(r) {
@@ -614,7 +677,14 @@ async function loadReviews() {
   renderReviews();
 }
 
+async function loadWhiskyOptions() {
+  const whiskies = await directusFetch('/items/whiskies?filter[status][_eq]=published&sort[]=sort&fields[]=id,name');
+  const select = document.getElementById('whiskySelect');
+  select.innerHTML = whiskies.map(w => `<option value="${w.id}">${w.name}</option>`).join('');
+}
+
 loadReviews();
+loadWhiskyOptions();
 </script>
 </body>
 </html>

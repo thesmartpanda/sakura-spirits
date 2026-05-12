@@ -1,0 +1,88 @@
+.footer {
+  background: var(--brown-deep);
+  color: var(--cream-dark);
+  padding: 4rem var(--page-pad) 2rem;
+  margin-top: 6rem;
+}
+
+.footerGrid {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr 1fr;
+  gap: 3rem;
+  padding-bottom: 3rem;
+  border-bottom: 1px solid rgba(200,146,42,0.2);
+}
+
+.footerBrandName {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: var(--cream);
+  letter-spacing: 0.1em;
+  margin-bottom: 0.3rem;
+}
+
+.footerBrandJp {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 0.75rem;
+  color: var(--amber);
+  letter-spacing: 0.3em;
+  margin-bottom: 1rem;
+}
+
+.footerBrandDesc {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  line-height: 1.8;
+  max-width: 260px;
+}
+
+.footerColTitle {
+  font-family: var(--font-display);
+  font-size: 0.75rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--amber);
+  margin-bottom: 1.2rem;
+}
+
+.footerLinks {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.footerLinks a {
+  color: var(--cream-dark);
+  text-decoration: none;
+  font-size: 0.9rem;
+  opacity: 0.8;
+  transition: opacity 0.2s, color 0.2s;
+}
+
+.footerLinks a:hover {
+  opacity: 1;
+  color: var(--amber-light);
+}
+
+.footerBottom {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding-top: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+@media (max-width: 768px) {
+  .footerGrid { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 480px) {
+  .footerGrid { grid-template-columns: 1fr; }
+}

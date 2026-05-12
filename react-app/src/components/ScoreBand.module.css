@@ -1,0 +1,37 @@
+.scoreBand {
+  background: var(--cream-dark);
+  padding: 1.5rem var(--page-pad);
+  border-bottom: 1px solid var(--cream-deeper);
+}
+
+.scoreBandInner {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  display: flex;
+  gap: 2.5rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.scoreLegendLabel {
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+
+.scoreLegendItem {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.scoreDot { width: 10px; height: 10px; border-radius: 50%; }
+
+.scoreLegendItem span {
+  font-family: var(--font-display);
+  font-size: 0.82rem;
+  color: var(--text-main);
+}

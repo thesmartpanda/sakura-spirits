@@ -598,7 +598,6 @@ function mapWhisky(w) {
 }
 
 let currentFilter = 'all';
-let currentWhisky = null;
 
 function renderGrid(items) {
   const grid = document.getElementById('shopGrid');
@@ -664,7 +663,6 @@ function openDrawer(id, e) {
   if (e) e.stopPropagation();
   const w = WHISKIES.find(x => x.id === id);
   if (!w) return;
-  currentWhisky = w;
   document.getElementById('drawerRegion').textContent = w.region;
   document.getElementById('drawerName').textContent = w.name;
   document.getElementById('drawerMeta').textContent = `${w.age} · ${w.abv} · ${w.sub.split('·').slice(-1)[0].trim()}`;
@@ -719,12 +717,6 @@ function addToCart(id, e) {
 
   showCartToast();
   closeDrawerDirect();
-}
-
-function updateCartCount() {
-  const cart = JSON.parse(localStorage.getItem('sakura_cart') || '[]');
-  const total = cart.reduce((s, i) => s + i.qty, 0);
-  document.getElementById('cartCount').textContent = total;
 }
 
 function showCartToast() {

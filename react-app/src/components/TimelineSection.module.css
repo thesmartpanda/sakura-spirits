@@ -1,0 +1,66 @@
+.timelineSection {
+  background: var(--brown-deep);
+  padding: 6rem var(--page-pad);
+  position: relative;
+  overflow: hidden;
+}
+
+.timelineInner { max-width: var(--max-w); margin: 0 auto; }
+
+.timelineSection h2 {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 3vw, 2.8rem);
+  font-weight: 300;
+  color: var(--cream);
+  margin-bottom: 4rem;
+}
+
+.timelineSection h2 em { font-style: italic; color: var(--amber-light); }
+
+.timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border-left: 1px solid rgba(200,146,42,0.3);
+  margin-left: 2rem;
+}
+
+.timelineItem {
+  position: relative;
+  padding: 0 0 3rem 3rem;
+}
+
+.timelineItem::before {
+  content: '';
+  position: absolute;
+  left: -5px;
+  top: 6px;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--amber);
+}
+
+.timelineYear {
+  font-family: var(--font-display);
+  font-size: 0.72rem;
+  letter-spacing: 0.3em;
+  color: var(--amber);
+  margin-bottom: 0.4rem;
+}
+
+.timelineEvent {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 500;
+  color: var(--cream);
+  margin-bottom: 0.4rem;
+}
+
+.timelineDesc {
+  font-size: 0.88rem;
+  color: var(--cream-dark);
+  opacity: 0.7;
+  max-width: 480px;
+  line-height: 1.7;
+}

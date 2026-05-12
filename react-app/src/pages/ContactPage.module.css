@@ -1,0 +1,59 @@
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.contactHero {
+  background: var(--brown-deep);
+  padding: calc(var(--nav-height) + 4rem) var(--page-pad) 4rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.contactHeroInner { max-width: var(--max-w); margin: 0 auto; }
+
+.contactHeroKicker {
+  font-family: 'Noto Serif JP', serif;
+  font-size: 0.75rem;
+  letter-spacing: 0.45em;
+  color: var(--amber);
+  margin-bottom: 1rem;
+  opacity: 0;
+  animation: fade-up 0.8s 0.3s forwards;
+}
+
+.contactHero h1 {
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 7vw, 6.5rem);
+  font-weight: 300;
+  color: var(--cream);
+  line-height: 1.0;
+  opacity: 0;
+  animation: fade-up 0.9s 0.5s forwards;
+}
+
+.contactHero h1 em { font-style: italic; color: var(--amber-light); }
+
+.contactHero p {
+  max-width: 480px;
+  color: var(--cream-dark);
+  opacity: 0;
+  font-size: 1rem;
+  margin-top: 1.2rem;
+  line-height: 1.8;
+  animation: fade-up 0.9s 0.7s forwards;
+}
+
+.contactLayout {
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding: 5rem var(--page-pad) 6rem;
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: 5rem;
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .contactLayout { grid-template-columns: 1fr; }
+}
