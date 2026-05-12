@@ -16,8 +16,8 @@ interface TastingDrawerProps {
  * Rendered via `createPortal` into `document.body` to escape any ancestor
  * stacking context that would otherwise clip the overlay z-index.
  */
-export function TastingDrawer({ whisky, onClose, onAddToCart }: TastingDrawerProps) {
-  const { addItem } = useCartContext()
+export function TastingDrawer({ whisky, onClose }: TastingDrawerProps) {
+  useCartContext()
   const open = whisky !== null
 
   useEffect(() => {
@@ -29,13 +29,6 @@ export function TastingDrawer({ whisky, onClose, onAddToCart }: TastingDrawerPro
     return () => document.removeEventListener('keydown', handler)
   }, [open, onClose])
 
-  function handleAdd() {
-    if (!whisky) return
-    // priceSub format: '£85 · Free UK delivery' — only the price token is stored.
-    addItem({ id: whisky.id, name: whisky.name, price: whisky.priceSub.split('·')[0].trim() })
-    onAddToCart()
-    onClose()
-  }
 
   return createPortal(
     <div
