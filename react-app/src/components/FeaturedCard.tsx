@@ -21,9 +21,9 @@ export function FeaturedCard({ whisky: w }: FeaturedCardProps) {
         <p className={styles.featCardAge}>
           {w.age} · {w.abv} ABV
         </p>
-        <p className={styles.featCardPrice}>
+        {/* <p className={styles.featCardPrice}>
           {w.price} · {w.priceSub.split('·')[0].trim()}
-        </p>
+        </p> */}
         <StarRating rating={w.rating} className={styles.featCardRating} showValue />
       </div>
     </Link>

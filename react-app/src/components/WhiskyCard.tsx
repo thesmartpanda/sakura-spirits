@@ -36,10 +36,10 @@ export function WhiskyCard({ whisky: w, onOpenDrawer }: WhiskyCardProps) {
         <p className={styles.whiskyCardSub}>{w.sub}</p>
       </div>
       <div className={styles.whiskyCardFooter}>
-        <div>
+        {/* <div>
           <div className={styles.whiskyPrice}>{w.price}</div>
           <div className={styles.whiskyPriceSub}>{w.priceSub.split('·')[0].trim()}</div>
-        </div>
+        </div> */}
         <div style={{ display: 'flex', gap: '0.5rem' }}>
           <button
             type="button"

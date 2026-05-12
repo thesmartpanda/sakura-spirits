@@ -73,7 +73,7 @@ export function TastingDrawer({ whisky, onClose, onAddToCart }: TastingDrawerPro
               </div>
             </>
           )}
-          <div className={styles.drawerPriceRow}>
+          {/* <div className={styles.drawerPriceRow}>
             <div>
               <div className={styles.drawerPrice}>{whisky?.price}</div>
               <div className={styles.drawerPriceSub}>{whisky?.priceSub}</div>
@@ -81,7 +81,7 @@ export function TastingDrawer({ whisky, onClose, onAddToCart }: TastingDrawerPro
             <button type="button" className={styles.drawerAddBtn} onClick={handleAdd}>
               Add to Cart
             </button>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>,

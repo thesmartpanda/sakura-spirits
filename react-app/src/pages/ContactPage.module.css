@@ -1,3 +1,8 @@
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
 .contactHero {
   background: var(--brown-deep);
   padding: calc(var(--nav-height) + 4rem) var(--page-pad) 4rem;
