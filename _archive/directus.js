@@ -1,5 +1,5 @@
-const DIRECTUS_URL = 'http://localhost:8055';
-const DIRECTUS_TOKEN = 'nkM2Y3r_kXxQbQNnOM35Zxao6sbecgIj';
+const DIRECTUS_URL = import.meta.env.VITE_API_URL || 'http://localhost:8055';
+const DIRECTUS_TOKEN = import.meta.env.VITE_API_TOKEN || 'nkM2Y3r_kXxQbQNnOM35Zxao6sbecgIj';
 
 async function directusFetch(path) {
   const res = await fetch(DIRECTUS_URL + path, {

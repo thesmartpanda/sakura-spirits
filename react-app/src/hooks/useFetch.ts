@@ -24,22 +24,34 @@ export function useFetch<T>(path: string | null): FetchState<T> {
       return
     }
 
-    const controller = new AbortController()
     setLoading(true)
     setError(null)
+    let cancelled = false
+    let controller: AbortController | null = null
 
-    directusFetch<T>(path, controller.signal)
-      .then((result) => {
-        setData(result)
-        setLoading(false)
-      })
-      .catch((err: unknown) => {
-        if (err instanceof Error && err.name === 'AbortError') return
-        setError(err instanceof Error ? err : new Error(String(err)))
-        setLoading(false)
-      })
+    // Defer the fetch by one tick so React StrictMode's synchronous
+    // unmount/remount cycle cancels the timer before any request fires.
+    const timerId = setTimeout(() => {
+      controller = new AbortController()
+      directusFetch<T>(path, controller.signal)
+        .then((result) => {
+          if (!cancelled) {
+            setData(result)
+            setLoading(false)
+          }
+        })
+        .catch((err: unknown) => {
+          if (cancelled || (err instanceof Error && err.name === 'AbortError')) return
+          setError(err instanceof Error ? err : new Error(String(err)))
+          setLoading(false)
+        })
+    }, 0)
 
-    return () => controller.abort()
+    return () => {
+      cancelled = true
+      clearTimeout(timerId)
+      controller?.abort()
+    }
   }, [path])
 
   return { data, loading, error }
