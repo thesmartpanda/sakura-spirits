@@ -31,6 +31,7 @@ export interface WhiskyApiItem {
   filter_key: string
   distillery: string
   flavor_profile: FlavorProfileApiItem[] | null
+  image: string | null
 }
 
 export interface RegionApiItem {
@@ -99,6 +100,7 @@ export interface Whisky {
   finish: string
   flavors: { name: string; val: number }[]
   bg: string
+  imageUrl: string | null
 }
 
 export interface Review {
@@ -179,6 +181,7 @@ export function mapWhisky(w: WhiskyApiItem): Whisky {
     bg:
       w.background_css ??
       'linear-gradient(160deg, #3d2b1a 0%, #1a1208 60%, #c8922a22 100%)',
+    imageUrl: w.image ? directusAssetUrl(w.image) : null,
   }
 }
 
@@ -209,6 +212,12 @@ export function mapReview(r: ReviewApiItem): Review {
     scoreColor: scoreColor(r.score),
     shopId: w?.id,
   }
+}
+
+// ─── Asset helpers ────────────────────────────────────────────────
+
+export function directusAssetUrl(fileId: string): string {
+  return `${DIRECTUS_URL}/assets/${fileId}?access_token=${DIRECTUS_TOKEN}`
 }
 
 // ─── API client ───────────────────────────────────────────────────

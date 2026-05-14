@@ -13,7 +13,24 @@ export function FeaturedCard({ whisky: w }: FeaturedCardProps) {
     <Link to="/shop" className={styles.featCard}>
       <div className={styles.featCardImg}>
         <div className={styles.featCardImgInner} style={{ background: w.bg }} />
-        <BottleSvg kanji={w.kanji} />
+        {w.imageUrl ? (
+          <img
+            src={w.imageUrl}
+            alt={w.name}
+            style={{
+              position: 'absolute',
+              bottom: 0,
+              left: '50%',
+              transform: 'translateX(-50%)',
+              width: '45%',
+              height: '100%',
+              objectFit: 'contain',
+              objectPosition: 'bottom',
+            }}
+          />
+        ) : (
+          <BottleSvg kanji={w.kanji} />
+        )}
       </div>
       <div className={styles.featCardBody}>
         <p className={styles.featCardRegion}>{w.region}</p>

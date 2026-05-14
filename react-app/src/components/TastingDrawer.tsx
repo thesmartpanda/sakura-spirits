@@ -38,10 +38,17 @@ export function TastingDrawer({ whisky, onClose }: TastingDrawerProps) {
       }}
     >
       <div className={styles.drawer}>
-        <div className={styles.drawerHeader}>
+        <div className={styles.drawerHeader} style={{ background: whisky?.bg }}>
           <button type="button" className={styles.drawerClose} onClick={onClose}>
             ✕
           </button>
+          {whisky?.imageUrl && (
+            <img
+              src={whisky.imageUrl}
+              alt={whisky.name}
+              className={styles.drawerHeaderImg}
+            />
+          )}
           <p className={styles.drawerRegion}>{whisky?.region}</p>
           <h2 className={styles.drawerName}>{whisky?.name}</h2>
           <p className={styles.drawerMeta}>

@@ -31,6 +31,7 @@
   background: var(--brown-deep);
   padding: 2rem 2rem 1.5rem;
   position: relative;
+  overflow: hidden;
 }
 
 .drawerClose {
@@ -43,6 +44,19 @@
   font-size: 1.5rem;
   cursor: pointer;
   transition: color 0.2s;
+  z-index: 1;
+}
+
+.drawerHeaderImg {
+  position: absolute;
+  bottom: 0;
+  right: 1.5rem;
+  height: 100%;
+  width: auto;
+  max-width: 35%;
+  object-fit: contain;
+  object-position: bottom;
+  pointer-events: none;
 }
 
 .drawerClose:hover { color: var(--amber); }
