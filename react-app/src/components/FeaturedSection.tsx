@@ -22,11 +22,11 @@ export function FeaturedSection() {
           }
           action={
             <Link
-              to="/shop"
+              to="/regions/yamazaki"
               className="btn-outline"
               style={{ whiteSpace: 'nowrap', alignSelf: 'flex-end' }}
             >
-              View All
+              Explore Regions
             </Link>
           }
         />

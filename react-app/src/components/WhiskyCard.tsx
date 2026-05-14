@@ -34,13 +34,11 @@ export function WhiskyCard({ whisky: w, onOpenDrawer }: WhiskyCardProps) {
             alt={w.name}
             style={{
               position: 'absolute',
-              bottom: 0,
-              left: '50%',
-              transform: 'translateX(-50%)',
-              width: '45%',
+              inset: 0,
+              width: '100%',
               height: '100%',
               objectFit: 'contain',
-              objectPosition: 'bottom',
+              objectPosition: 'center',
             }}
           />
         ) : (

@@ -10,7 +10,7 @@ interface FeaturedCardProps {
 
 export function FeaturedCard({ whisky: w }: FeaturedCardProps) {
   return (
-    <Link to="/shop" className={styles.featCard}>
+    <Link to={`/regions/${w.filter}`} className={styles.featCard}>
       <div className={styles.featCardImg}>
         <div className={styles.featCardImgInner} style={{ background: w.bg }} />
         {w.imageUrl ? (
@@ -19,13 +19,11 @@ export function FeaturedCard({ whisky: w }: FeaturedCardProps) {
             alt={w.name}
             style={{
               position: 'absolute',
-              bottom: 0,
-              left: '50%',
-              transform: 'translateX(-50%)',
-              width: '45%',
+              inset: 0,
+              width: '100%',
               height: '100%',
               objectFit: 'contain',
-              objectPosition: 'bottom',
+              objectPosition: 'center',
             }}
           />
         ) : (

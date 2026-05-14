@@ -55,7 +55,7 @@
   width: auto;
   max-width: 35%;
   object-fit: contain;
-  object-position: bottom;
+  object-position: center;
   pointer-events: none;
 }
 
