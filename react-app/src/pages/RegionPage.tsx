@@ -712,7 +712,7 @@ export function RegionPage() {
           <Reveal style={{ transitionDelay: '0.1s' }}>
             <div className={styles.otherRegionsGrid}>
               {otherRegions.map((r) => (
-                <Link key={r.slug} to={`/regions/${r.slug}`} className={styles.orCard}>
+                <Link key={r.slug} to={`/regions/${r.slug}`} className={styles.orCard} onClick={() => window.scrollTo(0, 0)}>
                   <p className={styles.orCardKanji}>{r.kanji}</p>
                   <h3 className={styles.orCardName}>{r.name}</h3>
                   <p className={styles.orCardTag}>{r.tag}</p>
