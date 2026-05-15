@@ -67,7 +67,7 @@ export function Nav() {
           <ul className={styles.dropdown}>
             {REGIONS.map((r) => (
               <li key={r.slug} className={styles.dropdownItem}>
-                <Link to={`/regions/${r.slug}`} className={styles.dropdownLink}>
+                <Link to={`/regions/${r.slug}`} className={styles.dropdownLink} onClick={() => window.scrollTo(0, 0)}>
                   <span className={styles.dropdownKanji}>{r.kanji}</span>
                   <span className={styles.dropdownName}>{r.name}</span>
                 </Link>
