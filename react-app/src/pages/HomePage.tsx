@@ -2,7 +2,7 @@ import { Hero } from '../components/Hero'
 import { FeaturedSection } from '../components/FeaturedSection'
 import { PhilosophyBand } from '../components/PhilosophyBand'
 import { RegionsSection } from '../components/RegionsSection'
-import { NewsletterSection } from '../components/NewsletterSection'
+// import { NewsletterSection } from '../components/NewsletterSection'
 
 export function HomePage() {
   return (
@@ -11,7 +11,7 @@ export function HomePage() {
       <FeaturedSection />
       <PhilosophyBand />
       <RegionsSection />
-      <NewsletterSection />
+      {/* <NewsletterSection /> */}
     </>
   )
 }
