@@ -10,10 +10,25 @@ interface FeaturedCardProps {
 
 export function FeaturedCard({ whisky: w }: FeaturedCardProps) {
   return (
-    <Link to="/shop" className={styles.featCard}>
+    <Link to={`/regions/${w.filter}`} className={styles.featCard}>
       <div className={styles.featCardImg}>
         <div className={styles.featCardImgInner} style={{ background: w.bg }} />
-        <BottleSvg kanji={w.kanji} />
+        {w.imageUrl ? (
+          <img
+            src={w.imageUrl}
+            alt={w.name}
+            style={{
+              position: 'absolute',
+              inset: 0,
+              width: '100%',
+              height: '100%',
+              objectFit: 'contain',
+              objectPosition: 'center',
+            }}
+          />
+        ) : (
+          <BottleSvg kanji={w.kanji} />
+        )}
       </div>
       <div className={styles.featCardBody}>
         <p className={styles.featCardRegion}>{w.region}</p>

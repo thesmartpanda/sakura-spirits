@@ -28,7 +28,22 @@ export function WhiskyCard({ whisky: w, onOpenDrawer }: WhiskyCardProps) {
       <div className={styles.whiskyCardImg}>
         <div className={styles.whiskyCardImgInner} style={{ background: w.bg }} />
         {w.badge && <span className={styles.whiskyCardBadge}>{w.badge}</span>}
-        <BottleSvg kanji={w.kanji} />
+        {w.imageUrl ? (
+          <img
+            src={w.imageUrl}
+            alt={w.name}
+            style={{
+              position: 'absolute',
+              inset: 0,
+              width: '100%',
+              height: '100%',
+              objectFit: 'contain',
+              objectPosition: 'center',
+            }}
+          />
+        ) : (
+          <BottleSvg kanji={w.kanji} />
+        )}
       </div>
       <div className={styles.whiskyCardBody}>
         <p className={styles.whiskyCardRegion}>{w.region}</p>

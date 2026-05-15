@@ -6,7 +6,7 @@
 
 .featuredGrid {
   display: grid;
-  grid-template-columns: 1.4fr 1fr 1fr;
+  grid-template-columns: repeat(3, 1fr);
   gap: 1.5px;
   background: var(--cream-deeper);
 }
@@ -35,7 +35,6 @@
   position: relative;
 }
 
-.featCard:first-child .featCardImg { aspect-ratio: 2/2.6; }
 
 .featCardImgInner {
   position: absolute;

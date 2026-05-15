@@ -8,7 +8,7 @@ interface RegionCardProps {
 
 export function RegionCard({ region: r }: RegionCardProps) {
   return (
-    <Link to={`/shop?filter=${r.filter_key}`} className={styles.regionCard}>
+    <Link to={`/regions/${r.filter_key}`} className={styles.regionCard}>
       <div className={styles.regionKanji}>{r.kanji}</div>
       <div className={styles.regionName}>{r.name}</div>
       <p className={styles.regionDesc}>{r.description}</p>

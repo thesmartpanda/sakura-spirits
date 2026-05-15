@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { AppProvider } from './contexts'
 import { Layout } from './components/Layout'
 import { HomePage } from './pages/HomePage'
-// import { ShopPage } from './pages/ShopPage'
+import { RegionPage } from './pages/RegionPage'
 import { ReviewsPage } from './pages/ReviewsPage'
 import { AboutPage } from './pages/AboutPage'
 import { ContactPage } from './pages/ContactPage'
@@ -15,6 +15,7 @@ export default function App() {
           <Route element={<Layout />}>
             <Route index element={<HomePage />} />
             <Route path="/shop" element={<Navigate to="/" replace />} />
+            <Route path="/regions/:slug" element={<RegionPage />} />
             <Route path="/reviews" element={<ReviewsPage />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/contact" element={<ContactPage />} />

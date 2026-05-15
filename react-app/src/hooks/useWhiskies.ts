@@ -3,10 +3,10 @@ import { mapWhisky, type Whisky, type WhiskyApiItem } from '../lib/directus'
 import { useFetch } from './useFetch'
 
 const SHOP_QUERY =
-  '/items/whiskies?filter[status][_eq]=published&sort[]=sort&fields[]=*,flavor_profile.*'
+  '/items/whiskies?filter[status][_eq]=published&sort[]=sort&fields[]=*,flavor_profile.*,image'
 
 const FEATURED_QUERY =
-  '/items/whiskies?filter[status][_eq]=published&filter[featured][_eq]=true&sort[]=sort&limit=3'
+  '/items/whiskies?filter[status][_eq]=published&filter[featured][_eq]=true&sort[]=sort&limit=3&fields[]=*,image'
 
 const OPTIONS_QUERY =
   '/items/whiskies?filter[status][_eq]=published&sort[]=sort&fields[]=id,name'
